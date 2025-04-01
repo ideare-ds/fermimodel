@@ -1,7 +1,7 @@
 from xml.dom import minidom
 import numpy as np
 
-import Tools
+from fermimodel import Tools
 
 def PLspec(roi, radLim, maxRad, varValue, var, sig, nO, f, i, p, dist, TS, vi, fixAll):
     """PowerLaw spectrum"""

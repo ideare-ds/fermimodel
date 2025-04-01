@@ -6,10 +6,10 @@ from scipy.integrate import quad, trapz
 from scipy.special import gamma, gammaincc
 from xml.dom import minidom
 
-from Exceptions import GetFluxError
-from Exceptions import WriteSpectrumError
-from Exceptions import HeaderCheckError
-from Exceptions import ExtendedTemplateError
+from fermimodel.Exceptions import GetFluxError
+from fermimodel.Exceptions import WriteSpectrumError
+from fermimodel.Exceptions import HeaderCheckError
+from fermimodel.Exceptions import ExtendedTemplateError
 
 # class GetFluxError(Exception):
 #     """Raise when we cannot calculate the flux of the source from parameters"""

@@ -1,12 +1,12 @@
 from xml.dom import minidom
 import os
 
-import Tools
+from fermimodel import Tools
 
-from Exceptions import GetFluxError
-from Exceptions import AddSourceError
-from Exceptions import SpectrumError
-from Exceptions import ExtendedTemplateError
+from fermimodel.Exceptions import GetFluxError, WriteSpectrumError
+from fermimodel.Exceptions import AddSourceError
+from fermimodel.Exceptions import SpectrumError
+from fermimodel.Exceptions import ExtendedTemplateError
 # class AddSourceError(Exception):
 #     """Raised when model cannot add a source."""
 #     pass

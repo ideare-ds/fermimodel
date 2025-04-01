@@ -1,6 +1,6 @@
 from astropy.coordinates import SkyCoord
 
-from Exceptions import BuildRegionError
+from fermimodel.Exceptions import BuildRegionError
 # class BuildRegionError(Exception):
 #     """Raise when the region cannot be built"""
 #     pass

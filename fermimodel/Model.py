@@ -2,12 +2,12 @@ import os
 from astropy.coordinates import SkyCoord
 from xml.dom import minidom
 
-import Tools
-import AddCatalogSources
-import SimulationSources
-import BuildRegion
+from fermimodel import Tools
+from fermimodel import AddCatalogSources
+from fermimodel import SimulationSources
+from fermimodel import BuildRegion
 
-from Exceptions import AddSourceError
+from fermimodel.Exceptions import AddSourceError
 
 class model:
     def __init__(self, name='mymodel', eventsfile=None, catalog=None, out=None, roi=None, frame='fk5', unit='degree', allsky=False, model_type='likelihood'):

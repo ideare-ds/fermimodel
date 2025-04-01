@@ -5,15 +5,17 @@ from xml.dom import minidom
 import numpy as np
 import os
 
-import Tools
-import BuildRegion
-import LikelihoodSpectra
-import SimulationSources
-import MaskFits
+from fermimodel import Tools
+from fermimodel import BuildRegion
+from fermimodel import LikelihoodSpectra
+from fermimodel import SimulationSources
+from fermimodel import MaskFits
 
-from Exceptions import AddSourceError
-from Exceptions import BuildRegionError
-from Exceptions import HeaderCheckError
+from fermimodel.Exceptions import (
+    AddSourceError,
+    BuildRegionError,
+    HeaderCheckError
+)
 
 class likelihoodModel:
     def __init__(self, **params):

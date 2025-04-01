@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import numpy as np
 import astropy.io.fits as pyfits
 from astropy.wcs import WCS
