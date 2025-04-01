@@ -48,7 +48,7 @@ class model:
         else:
             self.roi = None
         
-        if not model_type in ['likelihood', 'simulation']:
+        if model_type not in ['likelihood', 'simulation']:
             raise IOError("Model type must be 'likelihood' or 'simulation'.")
         else:
             self.model_type = model_type
@@ -158,8 +158,12 @@ class model:
         elif catalog is None:
             catalog = self.srcs
         
+        if not self.roi:
+            raise AttributeError("ROI has to be defined before loading catalog. Either set the ROI when creating model instance" 
+                                 "or use 'setROI' method before calling 'loadCatalog.")
+        
         self.radLim=(self.roi[2] if radLim<=0 else radLim)
-        self.maxRad=(self.radLim if maxRad==None else maxRad)
+        self.maxRad=(self.radLim if maxRad is None else maxRad)
         if (self.maxRad < self.radLim) and (self.model_type == 'likelihood'):
             print("NOTE: maxRad ({0:.1f} deg) is less than radLim ({1:.1f} deg), meaning maxRad parameter is useless".format(self.maxRad,self.radLim))
 
