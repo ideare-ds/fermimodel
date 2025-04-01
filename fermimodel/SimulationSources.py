@@ -219,7 +219,7 @@ def AddExtendedSource(name, spectype, spatialfunc, directory='', extDir='', ra=N
                     raise AddSourceError(e)
             elif resolution == 'skip':
                 raise AddSourceError(e)
-            elif resolutioin == 'raise':
+            elif resolution == 'raise':
                 raise e
             else:
                 raise AddSourceError(e)
