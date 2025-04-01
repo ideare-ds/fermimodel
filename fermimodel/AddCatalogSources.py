@@ -608,9 +608,9 @@ class simulationModel:
 
             if headers_present:
                 if self.GDflux is None: 
-                    if os.path.basename(GD) == 'gll_iem_v06.fits':
+                    if os.path.basename(self.GD) == 'gll_iem_v06.fits':
                         self.GDflux = 0.0006728539887251224
-                    elif (os.path.basename(GD) == 'gll_iem_v07.fits') or (os.path.basename(GD) == 'gll_iem_v07_revised.fits'):
+                    elif (os.path.basename(self.GD) == 'gll_iem_v07.fits') or (os.path.basename(self.GD) == 'gll_iem_v07_revised.fits'):
                         self.GDflux = 0.0008463167432920544
                     else:
                         self.GDflux = 0.
@@ -811,9 +811,9 @@ class simulationModel:
 
             if headers_present:
                 if self.GDflux is None: 
-                    if os.path.basename(GD) == 'gll_iem_v06.fits':
+                    if os.path.basename(self.GD) == 'gll_iem_v06.fits':
                         self.GDflux = 0.0006728539887251224
-                    elif (os.path.basename(GD) == 'gll_iem_v07.fits') or (os.path.basename(GD) == 'gll_iem_v07_revised.fits'):
+                    elif (os.path.basename(self.GD) == 'gll_iem_v07.fits') or (os.path.basename(self.GD) == 'gll_iem_v07_revised.fits'):
                         self.GDflux = 0.0008463167432920544
                     else:
                         self.GDflux = 0.

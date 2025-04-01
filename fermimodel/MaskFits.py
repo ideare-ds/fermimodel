@@ -158,7 +158,7 @@ def maskFits(fitsfile, out='maskedimage.fits', img_hdu=None, mask_type=None, rad
         if 'GLON' in wcs.wcs.ctype[0]:
             mask = genSquareMask(np.where(xcoords < 180., xcoords, xcoords - 360.), ycoords, extent_new)
         else:
-            mask = genSquarMask(xcoords, ycoords, extent_new)
+            mask = genSquareMask(xcoords, ycoords, extent_new)
         hdu_list[img_hdu].header['history'] = '{0} Applied square mask to data.'.format(datetime.datetime.today().strftime('%d %B %Y'))
         hdu_list[img_hdu].header['history'] = '[left, right, top, bottom]={0} {1}'.format(extent, frame_str)
     else:

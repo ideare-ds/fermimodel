@@ -356,7 +356,7 @@ class model:
                     raise e
 
         else:
-            source, modeled_extended = AddExtendedSource(name, spectrum_type, spatial_function, directory=self.wd, extDir=self.extD, ra=ra, dec=dec, glon=glon, glat=glat, major_axis=major_axis, minor_axis=minor_axis, position_angle=position_angle, efile=extended_template, emin=emin, emax=emax, frame=frame, resolution='skip', specfile=specFile, **spectrumargs)
+            source, modeled_extended = SimulationSources.AddExtendedSource(name, spectrum_type, spatial_function, directory=self.wd, extDir=self.extD, ra=ra, dec=dec, glon=glon, glat=glat, major_axis=major_axis, minor_axis=minor_axis, position_angle=position_angle, efile=extended_template, emin=emin, emax=emax, frame=frame, resolution='skip', specfile=specFile, **spectrumargs)
             try:
                 self.model.appendChild(source)
                 print("Added extended source {0} to model.".format(name))
