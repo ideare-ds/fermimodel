@@ -119,7 +119,7 @@ def AddExtendedSource(name, spectype, spatialfunc, directory='', extDir='', ra=N
                 raise AddSourceError(e)
             except ExtendedTemplateError as e:
                 if resolution == 'force-point':
-                    print "Could not find a template for {0}. Modeling source as a PowerLaw point source.".format(name)
+                    print("Could not find a template for {0}. Modeling source as a PowerLaw point source.".format(name))
                     try:
                        flux = spectrumargs['flux']
                     except KeyError:
@@ -151,7 +151,7 @@ def AddExtendedSource(name, spectype, spatialfunc, directory='', extDir='', ra=N
             raise AddSourceError(e)
         except ExtendedTemplateError as e:
             if resolution == 'force-point':
-                print "Could not find a template for {0}. Modeling source as a FileSpectrum point source.".format(name)
+                print("Could not find a template for {0}. Modeling source as a FileSpectrum point source.".format(name))
                 try:
                     child1, child2 = FileSpectrum(name, spectype, emin, emax, directory, frame=frame, ra=ra, dec=dec, glon=glon, glat=glat, specfile=specfile, **spectrumargs)
                     extended = False
@@ -187,7 +187,7 @@ def AddExtendedSource(name, spectype, spatialfunc, directory='', extDir='', ra=N
             raise AddSourceError(e)
         except ExtendedTemplateError as e:
             if resolution == 'force-point':
-                print "Could not find a template for {0}. Modeling source as a BrokenPowerLaw point source.".format(name)
+                print("Could not find a template for {0}. Modeling source as a BrokenPowerLaw point source.".format(name))
                 try:
                     child1, child2 = GammaPointSource(spectype, emin, emax, frame=frame, ra=ra, dec=dec, glon=glon, glat=glat, **spectrumargs)
                     extended = False
@@ -211,7 +211,7 @@ def AddExtendedSource(name, spectype, spatialfunc, directory='', extDir='', ra=N
             raise AddSourceError(e)
         except ExtendedTemplateError as e:
             if resolution == 'force-point':
-                print "Could not find a template for {0}. Modeling source as a FileSpectrum point source.".format(name)
+                print("Could not find a template for {0}. Modeling source as a FileSpectrum point source.".format(name))
                 try:
                     child1, child2 = FileSpectrum(name, spectype, emin, emax, directory, frame=frame, ra=ra, dec=dec, glon=glon, glat=glat, specfile=specfile, **spectrumargs)
                     extended = False

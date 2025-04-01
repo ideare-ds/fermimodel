@@ -295,7 +295,7 @@ def getPos(ft1):
             i=num
         i+=1
     if(keynum==0):  #DSKEYS start numbering at 1, if this value hasn't been updated, KEYword doesn't exist
-        print 'Error: No position keyword found in fits header (assuming position is RA and DEC.  Exiting...'
+        print('Error: No position keyword found in fits header (assuming position is RA and DEC.  Exiting...')
         exit()
     keyword='DSVAL%i' %keynum
     try:

@@ -18,8 +18,8 @@ def model(args):
     """Format arguments for model and execute"""
     args.varFree=False#remove this later
 
-    print "This is fermimodel version {0}".format(version)
-    print "The default diffuse model files and names are for pass 8 and 4FGL and assume you have v11r5p3 of the Fermi Science Tools or higher."
+    print("This is fermimodel version {0}".format(version))
+    print("The default diffuse model files and names are for pass 8 and 4FGL and assume you have v11r5p3 of the Fermi Science Tools or higher.")
 
     if args.model_type == 'simulation':
         args.oldNames = True
@@ -76,11 +76,11 @@ def model(args):
                       ISOflux=args.isoflux)
 
     xmlpath = model.writeXML()
-    print "Model XML has been written to {}".format(xmlpath)
+    print("Model XML has been written to {}".format(xmlpath))
 
     if args.model_type == 'simulation':
         srcpath = model.writeSrcList()
-        print "Model source list has been written to {0}".format(srcpath)
+        print("Model source list has been written to {0}".format(srcpath))
 
 def maskFits(args):
     """Format arguments for maskFits and execute"""
@@ -93,7 +93,7 @@ def maskFits(args):
     elif args.pixel is not None:
         frame = args.pixel
     else:
-        print "cannot mask image with frame type {0}".format(args.frame)
+        print("cannot mask image with frame type {0}".format(args.frame))
         exit()
 
     if args.roi is not None:
@@ -108,10 +108,10 @@ def maskFits(args):
     out = fermimodel.maskFits(args.input, out=args.output, img_hdu=args.image_hdu, mask_type=args.mask, radius=radius, radius2=args.radius2, angle=args.angle, center=center, extent=extent, frame=frame, unit=args.unit, clobber=args.clobber)
 
     if isinstance(out, tuple):
-        print "Output file saved at {0}".format(out[0])
-        print "Calculated flux is {0} photons/cm^2/s".format(out[1])
+        print("Output file saved at {0}".format(out[0]))
+        print("Calculated flux is {0} photons/cm^2/s".format(out[1]))
     else:
-        print "Output file saved at {0}".format(out)
+        print("Output file saved at {0}".format(out))
 
 def cli():
     main_helpString = "Command line interface to the fermimodel tools."

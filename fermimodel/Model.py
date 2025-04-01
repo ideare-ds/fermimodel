@@ -87,15 +87,15 @@ class model:
             if key in excluded_keys:
                 continue
             elif key == 'srcs':
-                print 'Source list file: ', val
+                print('Source list file: ', val)
             elif key == 'out':
-                print 'Output file name: ', val
+                print('Output file name: ', val)
             elif key == 'srcs':
-                print 'Catalog : ', 
+                print('Catalog : ', )
             elif key == 'model_type':
-                print 'Model Type :', val
+                print('Model Type :', val)
             else:
-                print "{0} : {1}".format(key, val)
+                print("{0} : {1}".format(key, val))
 
     def loadCatalog(self, catalog=None, GDfile=None, GDname='GalacticDiffuse', ISOfile=None, ISOname='IsotropicDiffuse', ISOpath="$(FERMI_DIR)/refdata/fermi/galdiffuse/isotropic_allsky.fits", normsOnly=False, extDir='', radLim=-1, maxRad=None, ExtraRad=10., sigFree=5., varFree=True, psForce=False, E2CAT=False, makeRegion=False, GIndexFree=False, wd=None, oldNames=False, emin=1.e2, emax=5.e5, frame='fk5', extSrcRes='force-point', apply_mask=False, GDflux=0.00084631675, ISOflux=0.):
         """Include sources in the catalog to the model. Optionaly include a galactic and isotropic diffuse models.
@@ -161,7 +161,7 @@ class model:
         self.radLim=(self.roi[2] if radLim<=0 else radLim)
         self.maxRad=(self.radLim if maxRad==None else maxRad)
         if (self.maxRad < self.radLim) and (self.model_type == 'likelihood'):
-            print "NOTE: maxRad ({0:.1f} deg) is less than radLim ({1:.1f} deg), meaning maxRad parameter is useless".format(self.maxRad,self.radLim)
+            print("NOTE: maxRad ({0:.1f} deg) is less than radLim ({1:.1f} deg), meaning maxRad parameter is useless".format(self.maxRad,self.radLim))
 
         self.var = varFree
         self.psF = psForce
@@ -181,7 +181,7 @@ class model:
             self.regFile = os.path.join(self.wd, 'ROI_' + rhold + '.reg')
         else:
             self.regFile = None
-        print 'Creating file and adding sources from Catalog {0}'.format(catalog)
+        print('Creating file and adding sources from Catalog {0}'.format(catalog))
 
         if self.model_type == 'simulation':
             self.oldNames = True
@@ -225,7 +225,7 @@ class model:
                 return filename
             except AttributeError as e:
                 if not hasattr(self, "model"):
-                    print "There is no model to write to file."
+                    print("There is no model to write to file.")
                     return None
                 else:
                     raise e
@@ -235,7 +235,7 @@ class model:
                 return filename
             except AttributeError as e:
                 if not hasattr(self, "model"):
-                    print "There is no model to write to file."
+                    print("There is no model to write to file.")
                     return None
                 else:
                     raise e
@@ -270,7 +270,7 @@ class model:
                 return filename
             except AttributeError as e:
                 if not hasattr(self, "Sources"):
-                    print "There are no sources in the model."
+                    print("There are no sources in the model.")
                     return None
                 else:
                     raise e
@@ -345,13 +345,13 @@ class model:
             source = SimulationSources.AddPointSource(name, spectrum_type, emin, emax, self.wd, ra=ra, dec=dec, glon=glon, glat=glat, frame=frame, specfile=specFile, **spectrumargs)
             try:
                 self.model.appendChild(source)
-                print "Added point source {0} to model.".format(name)
+                print("Added point source {0} to model.".format(name))
             except AttributeError as e:
                 if not hasattr(self, "model"):
                     self.model = minidom.getDOMImplementation().createDocument(None,'source_library',None)
                     self.model.documentElement.setAttribute('title', 'source_library')
                     self.model.appendChild(source)
-                    print "Added point source {0} to model.".format(name)
+                    print("Added point source {0} to model.".format(name))
                 else:
                     raise e
 
@@ -359,17 +359,17 @@ class model:
             source, modeled_extended = AddExtendedSource(name, spectrum_type, spatial_function, directory=self.wd, extDir=self.extD, ra=ra, dec=dec, glon=glon, glat=glat, major_axis=major_axis, minor_axis=minor_axis, position_angle=position_angle, efile=extended_template, emin=emin, emax=emax, frame=frame, resolution='skip', specfile=specFile, **spectrumargs)
             try:
                 self.model.appendChild(source)
-                print "Added extended source {0} to model.".format(name)
+                print("Added extended source {0} to model.".format(name))
             except AttributeError as e:
                 if not hasattr(self, "model"):
                     self.model = minidom.getDOMImplementation().createDocument(None,'source_library',None)
                     self.model.documentElement.setAttribute('title', 'source_library')
                     self.model.appendChild(source)
-                    print "Added point source {0} to model.".format(name)
+                    print("Added point source {0} to model.".format(name))
                 else:
                     raise e
 
-        print "Run writeXML and writeSrcList to update model files."
+        print("Run writeXML and writeSrcList to update model files.")
 
     def removeSource(self, *name):
         """Remove source or sources from the model.
@@ -391,19 +391,19 @@ class model:
                         self.model.documentElement.removeChild(src)
                         self.Sources.pop(n)
                         found = True
-                        print "Removed {0} from model.".format(n)
+                        print("Removed {0} from model.".format(n))
 
                 if not found:
-                    print "Source {0} is not in model.".format(n)
+                    print("Source {0} is not in model.".format(n))
             except AttributeError as e:
                 if not hasattr(self, "model"):
-                    print "Model has not been built, so there are not sources to remove."
+                    print("Model has not been built, so there are not sources to remove.")
                 elif not hasattr(self, "Sources"):
-                    print "No source list."
+                    print("No source list.")
                 else:
                     raise e
 
-        print "Run writeXML and writeSrcList to update model files."
+        print("Run writeXML and writeSrcList to update model files.")
 
     def BuildRegion(self, regFile=None, frame='fk5'):
         """Build the DS9 region file for the model
@@ -432,7 +432,7 @@ class model:
             out = BuildRegion.BuildRegion(regFile, self.Sources, model_type=self.model_type, frame=frame)
         except AttributeError as e:
             if not hasattr(self, "Sources"):
-                print "No sources in the model to include in the region file."
+                print("No sources in the model to include in the region file.")
             else:
                 raise e
 

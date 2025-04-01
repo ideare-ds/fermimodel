@@ -147,12 +147,12 @@ class likelihoodModel:
                         spatialOut.setAttribute('map_based_integral','true')
                         efile = os.path.join(self.extD, os.path.basename(spatial[0].getAttribute('file')))
                         spatialOut.setAttribute('file',efile)
-                        print 'Extended source {0} in ROI, make sure {1} is the correct path to the extended template.'.format(sname, efile)
+                        print('Extended source {0} in ROI, make sure {1} is the correct path to the extended template.'.format(sname, efile))
                     else:#have to do above to get correct extended source template file localtion
                         spatialOut.setAttribute('type', str(spatType))
                         for p in spatPars:#for radial disks and gaussians, can just do the following
                             spatialOut.appendChild(Tools.parameter_element("0","%s"%str(p.getAttribute('name')),"%s"%str(p.getAttribute('max')),"%s"%str(p.getAttribute('min')),"%s"%str(p.getAttribute('scale')),"%s"%str(p.getAttribute('value'))))
-                        print 'Extended source {0} in ROI, with {1} spatial model.'.format(sname, str(spatType))
+                        print('Extended source {0} in ROI, with {1} spatial model.'.format(sname, str(spatType)))
                     
                     srcOut.setAttribute('type', 'DiffuseSource')
                     extSrcNum += 1
@@ -206,19 +206,19 @@ class likelihoodModel:
             model.documentElement.appendChild(iso)
         
         if not self.psF:
-            print 'Added {0} point sources and {1} extended sources'.format(ptSrcNum, extSrcNum)
+            print('Added {0} point sources and {1} extended sources'.format(ptSrcNum, extSrcNum))
             if extSrcNum > 0:
-                print 'If using unbinned likelihood you will need to rerun gtdiffrsp for the extended sources or rerun the makeModel function with optional argument psForce=True'
+                print('If using unbinned likelihood you will need to rerun gtdiffrsp for the extended sources or rerun the makeModel function with optional argument psForce=True')
         else:
-            print 'Added {0} point sources, note that any extended sources in ROI were modeled as point sources becaue psForce option was set to True'.format(ptSrcNum)
+            print('Added {0} point sources, note that any extended sources in ROI were modeled as point sources becaue psForce option was set to True'.format(ptSrcNum))
         
         if self.reg:
-            print "Building DS9 region file..."
+            print("Building DS9 region file...")
             try:
                 regFile = BuildRegion.buildRegion(self.regFile, Sources, model_type='likelihood', frame=self.frame)
-                print "Region built. File is located at {0}".format(regFile)
+                print("Region built. File is located at {0}".format(regFile))
             except BuildRegionError as e:
-                print e
+                print(e)
         
         return model, Sources
 
@@ -325,7 +325,7 @@ class likelihoodModel:
                 # elif (t == 'PLSuperExpCutoff') or (t == 'PLSuperExpCutoff2'):
                     spec, free, comments = LikelihoodSpectra.CO2spec(self.roi, self.radLim, self.maxRad, self.varValue, self.var, self.sig, self.nO, cof, pleci, p, plecef, plecei, dist, TS, vi)
                 else:
-                    print "{0} has spectrum {1} which currently can't be modeled.".format(srcname, t)
+                    print("{0} has spectrum {1} which currently can't be modeled.".format(srcname, t))
                     spec = None
                     free = 0
                     comments = []
@@ -355,14 +355,14 @@ class likelihoodModel:
                               eD = EXTDEC
                     if efunc == 'SpatialMap':
                         if efile is None:
-                            print 'could not find a match for {0} in the list:'.format(En)
-                            print extName
+                            print('could not find a match for {0} in the list:'.format(En))
+                            print(extName)
                             efile = ''
                         spatialModel.setAttribute('file', efile)
                         spatialModel.setAttribute('map_based_integral', "true")
                         spatialModel.setAttribute('type', "SpatialMap")
                         spatialModel.appendChild(Tools.parameter_element("0", "Prefactor", "1000.0", "0.001", "1.0", "1.0"))
-                        print 'Extended source {0} in ROI, make sure {1} is the correct path to the extended template.'.format(En, efile)
+                        print('Extended source {0} in ROI, make sure {1} is the correct path to the extended template.'.format(En, efile))
                     else:
                         spatialModel.setAttribute('type', efunc)
                         spatialModel.appendChild(Tools.parameter_element("0", "RA", "360.0", "-360.0", "1.0", "{0}".format(eR)))
@@ -372,7 +372,7 @@ class likelihoodModel:
                         else:
                             spatialModel.appendChild(Tools.parameter_element("0", "Sigma", "10.0", "0.0", "1.0", "{0}".format(eSize)))
                         
-                        print 'Extended source {0} in ROI with {1} spatial model.'.format(En,efunc)
+                        print('Extended source {0} in ROI with {1} spatial model.'.format(En,efunc))
                 else:
                     spatialModel.setAttribute('type', "SkyDirFunction")
                     spatialModel.appendChild(Tools.parameter_element("0", "RA", "360.0", "-360.0", "1.0", "{0}".format(r)))
@@ -386,11 +386,11 @@ class likelihoodModel:
                 model.documentElement.appendChild(source)
         
         if not self.psF:
-            print 'Added {0} point sources and {1} extended sources.'.format(ptSrcNum, extSrcNum)
+            print('Added {0} point sources and {1} extended sources.'.format(ptSrcNum, extSrcNum))
             if extSrcNum > 0:
-                print 'If using unbinned likelihood you will need to rerun gtdiffrsp for the extended sources or rerun the makeModel function with optional argument psForce=True.'
+                print('If using unbinned likelihood you will need to rerun gtdiffrsp for the extended sources or rerun the makeModel function with optional argument psForce=True.')
         else:
-            print 'Added {0} point sources, note that any extended sources in ROI were modeled as point sources becaue psForce option was set to True.'.format(ptSrcNum)
+            print('Added {0} point sources, note that any extended sources in ROI were modeled as point sources becaue psForce option was set to True.'.format(ptSrcNum))
         
         #add galactic diffuse with PL spectrum, fix index to zero for general use, those who want it to be free can unfreeze parameter manually
         comment = model.createComment("Diffuse Sources")
@@ -438,12 +438,12 @@ class likelihoodModel:
             Sources[self.ISOn] = {'ra':266.4049962340225, 'dec':-28.936172403391776, 'glon':0., 'glat':0., 'E':True, 'stype':'FileFunction', 'diffuse':True, 'free':True}
         
         if self.reg:
-            print "Building DS9 region file..."
+            print("Building DS9 region file...")
             try:
                 regFile = BuildRegion.buildRegion(self.regFile, Sources, model_type='likelihood', frame=self.frame)
-                print "Region built. File is located at {0}".format(regFile)
+                print("Region built. File is located at {0}".format(regFile))
             except BuildRegionError as e:
-                print e
+                print(e)
         
         return model, Sources
 
@@ -541,14 +541,14 @@ class simulationModel:
                 if E and not self.psF:
                     name_idx = np.where(extName == En)[0]
                     if len(name_idx) == 0:
-                        print 'coult not find a match for {0} in the list:'.format(En)
-                        print extName
-                        print 'Skipping source...'
+                        print('coult not find a match for {0} in the list:'.format(En))
+                        print(extName)
+                        print('Skipping source...')
                         continue
                     elif len(name_idx) > 1:
-                        print 'Found multiple extended sources with the name {0} in list:'.format(En)
-                        print extName
-                        print 'Skipping source...'
+                        print('Found multiple extended sources with the name {0} in list:'.format(En))
+                        print(extName)
+                        print('Skipping source...')
                         continue
                     else:
                     # efile = sL.extD + extFile[idx[0]]
@@ -580,9 +580,9 @@ class simulationModel:
                             Sources[srcname] = {'ra': r, 'dec':d, 'glon':gl, 'glat':gb, 'stype':t, 'Spatial_Function':spatialfunc, 'extFile':efile, 'E':False, 'diffuse':False}
                             ptSrcNum += 1
                     except AddSourceError as e:
-                        print "Error encountered when adding extended source {0}.".format(srcname)
-                        print e
-                        print "Skipping source..."
+                        print("Error encountered when adding extended source {0}.".format(srcname))
+                        print(e)
+                        print("Skipping source...")
                         continue
                 else:
                     try:
@@ -591,9 +591,9 @@ class simulationModel:
                         Sources[srcname] = {'ra':r, 'dec':d, 'glon':gl, 'glat':gb, 'stype':t, 'Spatial_Function':'PointSource', 'extFile':'', 'E':E, 'diffuse':False}
                         ptSrcNum += 1
                     except AddSourceError as e:
-                        print "Error encountered when adding point source {0}.".format(srcname)
-                        print e
-                        print "Skipping source..."
+                        print("Error encountered when adding point source {0}.".format(srcname))
+                        print(e)
+                        print("Skipping source...")
                         continue
 
         # Add galactic diffuse emission
@@ -602,7 +602,7 @@ class simulationModel:
             try:
                 headers_present = Tools.checkHeader(self.GD)
             except HeaderCheckError as e:
-                print e
+                print(e)
 
             if headers_present:
                 if self.GDflux is None: 
@@ -615,10 +615,10 @@ class simulationModel:
 
                 if self.apply_mask:
                     gd, ext = os.path.splitext(os.path.basename(self.GD))
-                    print "Masking Galactic Diffuse model..."
-                    print "Applying mask of {0} degrees around ({1}, {2})".format(self.roi[2] + self.ER, self.roi[0], self.roi[1])
+                    print("Masking Galactic Diffuse model...")
+                    print("Applying mask of {0} degrees around ({1}, {2})".format(self.roi[2] + self.ER, self.roi[0], self.roi[1]))
                     self.GD, self.GDflux = MaskFits.maskFits(self.GD, out=os.path.join(self.wd, gd + "_masked" + ext), mask_type='radial', radius=self.roi[2] + self.ER, radius2=None, angle=0., center=(self.roi[0], self.roi[1]), frame='fk5', unit='degree', clobber=True)
-                    print "Done."
+                    print("Done.")
                 
                 source = model.createElement('source')
                 source.setAttribute('name', self.GDn)
@@ -654,10 +654,10 @@ class simulationModel:
 
             if self.apply_mask:
                 iso, ext = os.path.splitext(os.path.basename(self.ISOpath))
-                print "Masking Isotropic Diffuse model..."
-                print "Applying mask of {0} degrees around ({1}, {2})".format(self.roi[2], self.roi[0], self.roi[1])
+                print("Masking Isotropic Diffuse model...")
+                print("Applying mask of {0} degrees around ({1}, {2})".format(self.roi[2], self.roi[0], self.roi[1]))
                 self.ISOpath = MaskFits.maskFits(self.ISOpath, out=os.path.join(self.wd, iso + "_masked" + ext), mask_type='radial', radius=self.roi[2] + self.ER + 6., radius2=None, angle=0., center=(self.roi[0], self.roi[1]), frame='fk5', unit='deg', clobber=True)
-                print "Done."
+                print("Done.")
 
             if self.ISOflux is None:
                 self.ISOflux = 0.0
@@ -679,17 +679,17 @@ class simulationModel:
             extSrcNum += 1
 
         if not self.psF:
-            print 'Added {0} point sources and {1} extended sources.'.format(ptSrcNum, extSrcNum)
+            print('Added {0} point sources and {1} extended sources.'.format(ptSrcNum, extSrcNum))
         else:
-            print 'Added {0} point sources, note that any extended sources in ROI were modeled as point sources because psForce option was set to True.'.format(ptSrcNum)
+            print('Added {0} point sources, note that any extended sources in ROI were modeled as point sources because psForce option was set to True.'.format(ptSrcNum))
 
         if self.reg:
-            print "Building DS9 region file..."
+            print("Building DS9 region file...")
             try:
                 regFile = BuildRegion.buildRegion(self.regFile, Sources, model_type='simulation', frame=self.frame)
-                print "Region built. File is located at {0}".format(regFile)
+                print("Region built. File is located at {0}".format(regFile))
             except BuildRegionError as e:
-                print e
+                print(e)
 
         return model, Sources
 
@@ -769,8 +769,8 @@ class simulationModel:
                                 scale = float(param.getAttribute('scale'))
                                 semimajor = float(param.getAttribute('value'))*scale
                     else:
-                        print "{0} is not a spatial function that can be modeled.".format(spatialfunc)
-                        print "Skipping source..."
+                        print("{0} is not a spatial function that can be modeled.".format(spatialfunc))
+                        print("Skipping source...")
                         continue
 
                     try:
@@ -783,9 +783,9 @@ class simulationModel:
                             Sources[srcname] = {'ra': r, 'dec':d, 'glon':gl, 'glat':gb, 'stype':t, 'Spatial_Function':spatialfunc, 'extFile':efile, 'E':False, 'diffuse':False}
                             ptSrcNum += 1
                     except AddSourceError as e:
-                        print "Error encountered when adding extended source {0}.".format(srcname)
-                        print e
-                        print "Skipping source..."
+                        print("Error encountered when adding extended source {0}.".format(srcname))
+                        print(e)
+                        print("Skipping source...")
                         continue
                 else:
                     try:
@@ -794,9 +794,9 @@ class simulationModel:
                         Sources[srcname] = {'ra':r, 'dec':d, 'glon':gl, 'glat':gb, 'stype':t, 'Spatial_Function':'PointSource', 'extFile':'', 'E':E, 'diffuse':False}
                         ptSrcNum += 1
                     except AddSourceError as e:
-                        print "Error encountered when adding point source {0}.".format(srcname)
-                        print e
-                        print "Skipping source..."
+                        print("Error encountered when adding point source {0}.".format(srcname))
+                        print(e)
+                        print("Skipping source...")
                         continue
 
         # Add galactic diffuse emission
@@ -805,7 +805,7 @@ class simulationModel:
             try:
                 headers_present = Tools.checkHeader(self.GD)
             except HeaderCheckError as e:
-                print e
+                print(e)
 
             if headers_present:
                 if self.GDflux is None: 
@@ -818,10 +818,10 @@ class simulationModel:
 
                 if self.apply_mask:
                     gd, ext = os.path.splitext(os.path.basename(self.GD))
-                    print "Masking Galactic Diffuse model..."
-                    print "Applying mask of {0} degrees around ({1}, {2})".format(self.roi[2] + self.ER, self.roi[0], self.roi[1])
+                    print("Masking Galactic Diffuse model...")
+                    print("Applying mask of {0} degrees around ({1}, {2})".format(self.roi[2] + self.ER, self.roi[0], self.roi[1]))
                     self.GD, self.GDflux = MaskFits.maskFits(self.GD, out=os.path.join(self.wd, gd + "_masked" + ext), mask_type='radial', radius=self.roi[2] + self.ER, radius2=None, angle=0., center=(self.roi[0], self.roi[1]), frame='fk5', unit='degree', clobber=True)
-                    print "Done."
+                    print("Done.")
                 
                 source = model.createElement('source')
                 source.setAttribute('name', self.GDn)
@@ -857,10 +857,10 @@ class simulationModel:
 
             if self.apply_mask:
                 iso, ext = os.path.splitext(os.path.basename(self.ISOpath))
-                print "Masking Isotropic Diffuse model..."
-                print "Applying mask of {0} degrees around ({1}, {2})".format(self.roi[2], self.roi[0], self.roi[1])
+                print("Masking Isotropic Diffuse model...")
+                print("Applying mask of {0} degrees around ({1}, {2})".format(self.roi[2], self.roi[0], self.roi[1]))
                 self.ISOpath = MaskFits.maskFits(self.ISOpath, out=os.path.join(self.wd, iso + "_masked" + ext), mask_type='radial', radius=self.roi[2] + self.ER + 6., radius2=None, angle=0., center=(self.roi[0], self.roi[1]), frame='fk5', unit='deg', clobber=True)
-                print "Done."
+                print("Done.")
 
             if self.ISOflux is None:
                 self.ISOflux = 0.0
@@ -882,17 +882,17 @@ class simulationModel:
             extSrcNum += 1
 
         if not self.psF:
-            print 'Added {0} point sources and {1} extended sources.'.format(ptSrcNum, extSrcNum)
+            print('Added {0} point sources and {1} extended sources.'.format(ptSrcNum, extSrcNum))
         else:
-            print 'Added {0} point sources, note that any extended sources in ROI were modeled as point sources because psForce option was set to True.'.format(ptSrcNum)
+            print('Added {0} point sources, note that any extended sources in ROI were modeled as point sources because psForce option was set to True.'.format(ptSrcNum))
 
         if self.reg:
-            print "Building DS9 region file..."
+            print("Building DS9 region file...")
             try:
                 regFile = BuildRegion.buildRegion(self.regFile, Sources, model_type='simulation', frame=self.frame)
-                print "Region built. File is located at {0}".format(regFile)
+                print("Region built. File is located at {0}".format(regFile))
             except BuildRegionError as e:
-                print e
+                print(e)
 
         return model, Sources
 
