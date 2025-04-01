@@ -11,8 +11,7 @@ setup(
 	author_email = 'julbrich@ucsc.edu',
 	install_requires = [
 		'astropy',
-		'scipy',
-		'xml',
+		'scipy'
 	],
 	scripts = ['bin/fermimodel']
 	)
