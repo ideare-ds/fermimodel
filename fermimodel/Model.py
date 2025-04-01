@@ -10,7 +10,16 @@ from fermimodel import BuildRegion
 from fermimodel.Exceptions import AddSourceError
 
 class model:
-    def __init__(self, name='mymodel', eventsfile=None, catalog=None, out=None, roi=None, frame='fk5', unit='degree', allsky=False, model_type='likelihood'):
+    def __init__(self,
+                 name='mymodel',
+                 eventsfile=None,
+                 catalog=None,
+                 out=None,
+                 roi=None,
+                 frame='fk5',
+                 unit='degree',
+                 allsky=False,
+                 model_type='likelihood'):
         """Model class containing methods and attributes for building models for use with Fermitools
 
         Parameters
@@ -30,7 +39,8 @@ class model:
         unit : str (Optional)
             Units for region of interest argument. Any astropy unit is allowed.
         allsky : bool (Optional)
-            Flag to set region of interest to the entire sky. By default this sets the region of interest center to the galactic center (l=0, b=0).
+            Flag to set region of interest to the entire sky. By default this sets the region of interest center to 
+            the galactic center (l=0, b=0).
 
         """
         self.name = name
@@ -53,7 +63,11 @@ class model:
         else:
             self.model_type = model_type
 
-    def setROI(self, roi=None, frame='fk5', unit='degree', allsky=False):
+    def setROI(self, 
+               roi=None, 
+               frame='fk5', 
+               unit='degree', 
+               allsky=False):
         """Set the Region of Interest for the model.
 
         Parameters
@@ -97,7 +111,33 @@ class model:
             else:
                 print("{0} : {1}".format(key, val))
 
-    def loadCatalog(self, catalog=None, GDfile=None, GDname='GalacticDiffuse', ISOfile=None, ISOname='IsotropicDiffuse', ISOpath="$(FERMI_DIR)/refdata/fermi/galdiffuse/isotropic_allsky.fits", normsOnly=False, extDir='', radLim=-1, maxRad=None, ExtraRad=10., sigFree=5., varFree=True, psForce=False, E2CAT=False, makeRegion=False, GIndexFree=False, wd=None, oldNames=False, emin=1.e2, emax=5.e5, frame='fk5', extSrcRes='force-point', apply_mask=False, GDflux=0.00084631675, ISOflux=0.):
+    def loadCatalog(self,
+                    catalog=None,
+                    GDfile=None,
+                    GDname='GalacticDiffuse',
+                    ISOfile=None,
+                    ISOname='IsotropicDiffuse',
+                    ISOpath="$(FERMI_DIR)/refdata/fermi/galdiffuse/isotropic_allsky.fits",
+                    normsOnly=False,
+                    extDir='',
+                    radLim=-1,
+                    maxRad=None,
+                    ExtraRad=10.,
+                    sigFree=5.,
+                    varFree=True,
+                    psForce=False,
+                    E2CAT=False,
+                    makeRegion=False,
+                    GIndexFree=False,
+                    wd=None,
+                    oldNames=False,
+                    emin=1.e2,
+                    emax=5.e5,
+                    frame='fk5',
+                    extSrcRes='force-point',
+                    apply_mask=False,
+                    GDflux=0.00084631675,
+                    ISOflux=0.):
         """Include sources in the catalog to the model. Optionaly include a galactic and isotropic diffuse models.
 
         Parameters
@@ -121,13 +161,17 @@ class model:
         radLim : float (Optional)
             Radius in degrees from center of ROI beyond which source parameters are fixed
         maxRad : float (Optional)
-            Absolute maximum radius beyond which sources are fixed. This may be necessary when doing binned analysis and a variable source beyond radLim would be set free but this source is beyond the boundaries of the square region used for the binned likelihood
+            Absolute maximum radius beyond which sources are fixed. This may be necessary when doing binned analysis 
+            and a variable source beyond radLim would be set free but this source is beyond the boundaries of the 
+            square region used for the binned likelihood
         ExtraRad : float (Optional)
-            Radius beyond ROI radius out to which sources will be included with fixed parameters. Default of 10 degrees is good for analysis starting around 100 MeV, but for higher energy fits this can be decreased.
+            Radius beyond ROI radius out to which sources will be included with fixed parameters. 
+            Default of 10 degrees is good for analysis starting around 100 MeV, but for higher energy fits this can be decreased.
         sigFree : float (Optional)
             Significance below which source parameters are fixed, even if within radLim.
         varFree : float (Optional)
-            Variability index above which source parameters are free. If beyond radLim and/or below sigFree only the normalization parameters is set free. Currently not implemented for building from xml catalog.
+            Variability index above which source parameters are free. If beyond radLim and/or below sigFree only 
+            the normalization parameters is set free. Currently not implemented for building from xml catalog.
         psForce : bool (Optional)
             Flag to force exentended sources to be point sources
         E2CAT : bool (Optional)
@@ -135,11 +179,14 @@ class model:
         makeRegion : bool (Optional)
             Flag to also generate ds9 region file.
         GIndexFree : bool (Optional)
-            The galactic diffuse is given a power-law spectral shape but by default the index is frozen. Setting this flag to True allows that to be free for additional freedom in diffuse fit.
+            The galactic diffuse is given a power-law spectral shape but by default the index is frozen. 
+            Setting this flag to True allows that to be free for additional freedom in diffuse fit.
         wd : str (Optional)
-            Path to directory in which output files will be saved. If an absolute path for the output file names is given it will override this argument.
+            Path to directory in which output files will be saved. If an absolute path for the output file names 
+            is given it will override this argument.
         oldNames : bool (Optional)
-            Sets use of old naming convention. Underscore before name and no spaces. Default is False for likelihood models. This is automatically set to true for simulation models.
+            Sets use of old naming convention. Underscore before name and no spaces. Default is False for likelihood models. 
+            This is automatically set to true for simulation models.
         emin : float (Optional)
             Minimum energy in MeV for source simulation. This should match simulation criteria. Default is 100 MeV.
         emax : float (Optional)
@@ -147,7 +194,8 @@ class model:
         GDflux : float (Optional)
             Integrated flux to use for the galactic diffuse emission model in photons/cm^2/s. Default is 0.00084631675.
         ISOflux : float (Optional)
-            Integrated flux to use for the isotropic diffuse emission model in photons/cm^2/s. If 0.0 flux is calculated on the fly by the simulator. Default is 0.0.
+            Integrated flux to use for the isotropic diffuse emission model in photons/cm^2/s. 
+            If 0.0 flux is calculated on the fly by the simulator. Default is 0.0.
 
         Returns
         -------
@@ -189,10 +237,52 @@ class model:
 
         if self.model_type == 'simulation':
             self.oldNames = True
-            self.model, self.Sources = AddCatalogSources.simulation(srcs=catalog, roi=self.roi, psF=self.psF, E2C=self.E2C, nO=self.nO, extD=self.extD, ER=self.ER, reg=self.reg, regFile=self.regFile, wd=self.wd, extSrcRes=self.extSrcRes, GD=GDfile, GDn=GDname, ISO=ISOfile, ISOn=ISOname, ISOpath=ISOpath, oldNames=self.oldNames, emin=emin, emax=emax, frame=frame, apply_mask=apply_mask, GDflux=GDflux, ISOflux=ISOflux)
+            self.model, self.Sources = AddCatalogSources.simulation(srcs=catalog, 
+                                                                    roi=self.roi, 
+                                                                    psF=self.psF, 
+                                                                    E2C=self.E2C, 
+                                                                    nO=self.nO, 
+                                                                    extD=self.extD, 
+                                                                    ER=self.ER, 
+                                                                    reg=self.reg, 
+                                                                    regFile=self.regFile, 
+                                                                    wd=self.wd, 
+                                                                    extSrcRes=self.extSrcRes, 
+                                                                    GD=GDfile, 
+                                                                    GDn=GDname, 
+                                                                    ISO=ISOfile, 
+                                                                    ISOn=ISOname, 
+                                                                    ISOpath=ISOpath, 
+                                                                    oldNames=self.oldNames, 
+                                                                    emin=emin, 
+                                                                    emax=emax, 
+                                                                    frame=frame, 
+                                                                    apply_mask=apply_mask, 
+                                                                    GDflux=GDflux, 
+                                                                    ISOflux=ISOflux)
             self.srcs = catalog
         elif self.model_type == 'likelihood':
-            self.model, self.Sources = AddCatalogSources.likelihood(srcs=catalog, roi=self.roi, var=self.var, psF=self.psF, E2C=self.E2C, nO=self.nO, extD=self.extD, radLim=self.radLim, maxRad=self.maxRad, ER=self.ER, sig=self.sig, reg=self.reg, regFile=self.regFile, GIF=self.GIF, wd=self.wd, GD=GDfile, GDn=GDname, ISO=ISOfile, ISOn=ISOname, frame=frame, oldNames=self.oldNames)
+            self.model, self.Sources = AddCatalogSources.likelihood(srcs=catalog, 
+                                                                    roi=self.roi, 
+                                                                    var=self.var, 
+                                                                    psF=self.psF, 
+                                                                    E2C=self.E2C, 
+                                                                    nO=self.nO, 
+                                                                    extD=self.extD, 
+                                                                    radLim=self.radLim, 
+                                                                    maxRad=self.maxRad, 
+                                                                    ER=self.ER, 
+                                                                    sig=self.sig, 
+                                                                    reg=self.reg, 
+                                                                    regFile=self.regFile, 
+                                                                    GIF=self.GIF, 
+                                                                    wd=self.wd, 
+                                                                    GD=GDfile, 
+                                                                    GDn=GDname, 
+                                                                    ISO=ISOfile, 
+                                                                    ISOn=ISOname, 
+                                                                    frame=frame, 
+                                                                    oldNames=self.oldNames)
             self.srcs = catalog
         else:
             raise IOError("Model type must be either simulation or likelihood. To {0}".format(self.model_type))
@@ -279,7 +369,23 @@ class model:
                 else:
                     raise e
 
-    def addSource(self, name, spectrum_type, ra=None, dec=None, glon=None, glat=None, major_axis=None, minor_axis=None, position_angle=None, spatial_function=None, extended_template=None, emin=1.e2, emax=5.e5, frame='galactic', specFile=None, **spectrumargs):
+    def addSource(self,
+                  name,
+                  spectrum_type,
+                  ra=None,
+                  dec=None,
+                  glon=None,
+                  glat=None,
+                  major_axis=None,
+                  minor_axis=None,
+                  position_angle=None,
+                  spatial_function=None,
+                  extended_template=None,
+                  emin=1.e2,
+                  emax=5.e5,
+                  frame='galactic',
+                  specFile=None,
+                  **spectrumargs):
         """Add a single source to the model.
 
         Parameters
@@ -287,7 +393,8 @@ class model:
         name : str
             Name of the source to add.
         spectrum_type : str
-            Spectral type of the source. Options: Monochromatic, PowerLaw, BrokenPowerLaw, LogParabola, PLSuperExpCutoff2, PLSuperExpCutoff, MapCube, FileSpectrum
+            Spectral type of the source. Options: Monochromatic, PowerLaw, BrokenPowerLaw, 
+            LogParabola, PLSuperExpCutoff2, PLSuperExpCutoff, MapCube, FileSpectrum
         ra : float, optional
             Right Ascension of source in degrees
         dec : float, optional
@@ -301,9 +408,11 @@ class model:
         minor_axis : float, optional
             The semi-minor axis of the error ellipse at 95% confidence, in degrees.
         position_angle : float, optional
-            The position angle of the 95%-confidence semi-major axis, from celestial North, positive toward increasing R.A. (eastward), in degrees.
+            The position angle of the 95%-confidence semi-major axis, from celestial North, 
+            positive toward increasing R.A. (eastward), in degrees.
         spatial_function : str, optional
-            Spatial function describing source extension. Options: None, SpatialMap, RadialDisk, RadialGauss, Isotropic
+            Spatial function describing source extension. Options: None, SpatialMap, RadialDisk,
+            RadialGauss, Isotropic
         extended_template : str, optional
             Full path to extended template.
         emin : float, optional
@@ -313,7 +422,8 @@ class model:
         frame : str, optional
             Coordinate frame to use for source directions. Options: galactic, icrs
         specFile : str, optional
-            Name (and path) to ASCII file containing spectrum. The first column contains the energies, and second column contains the differential flux at those energies. Energy scale should be in MeV.
+            Name (and path) to ASCII file containing spectrum. The first column contains the energies, 
+            and second column contains the differential flux at those energies. Energy scale should be in MeV.
         pl_flux_density : float, optional
             The differential flux at pivot_energy for the PowerLaw fit, in photons/cm2/MeV/s.
         lp_flux_density : float, optional
@@ -321,7 +431,8 @@ class model:
         plec_flux_density : float, optional
             The differential flux at pivot_energy for the PLSuperExpCutoff fit, in photons/cm2/MeV/s.
         pivot_energy : float, optional
-            The energy, in MeV, at which the error in the differential photon flux is minimal (i.e., the decorrelation energy for the power-law fit).
+            The energy, in MeV, at which the error in the differential photon flux is minimal 
+            (i.e., the decorrelation energy for the power-law fit).
         pl_index : float, optional
             The photon index for the PowerLaw fit.
         lp_index : float, optional
@@ -341,12 +452,30 @@ class model:
         -------
 
         """
-        allowed_spectypes = ["Monochromatic", "PowerLaw", "BrokenPowerLaw", "LogParabola", "PLSuperExpCutoff", "PLSuperExpCutoff2", "MapCube", "FileSpectrum"]
+        allowed_spectypes = ["Monochromatic", 
+                             "PowerLaw", 
+                             "BrokenPowerLaw", 
+                             "LogParabola", 
+                             "PLSuperExpCutoff", 
+                             "PLSuperExpCutoff2", 
+                             "MapCube", 
+                             "FileSpectrum"]
         if spectrum_type not in allowed_spectypes:
-            raise AddSourceError("Cannot add a source with spectrum type {0}. Options are: {1}".format(spectrum_type, ", ".join(allowed_spectypes)))
+            raise AddSourceError("Cannot add a source with spectrum type {0}. Options are: {1}".format(spectrum_type,  ", ".join(allowed_spectypes)))
 
         if spatial_function is None:
-            source = SimulationSources.AddPointSource(name, spectrum_type, emin, emax, self.wd, ra=ra, dec=dec, glon=glon, glat=glat, frame=frame, specfile=specFile, **spectrumargs)
+            source = SimulationSources.AddPointSource(name, 
+                                                      spectrum_type, 
+                                                      emin, 
+                                                      emax, 
+                                                      self.wd, 
+                                                      ra=ra, 
+                                                      dec=dec, 
+                                                      glon=glon, 
+                                                      glat=glat, 
+                                                      frame=frame, 
+                                                      specfile=specFile, 
+                                                      **spectrumargs)
             try:
                 self.model.appendChild(source)
                 print("Added point source {0} to model.".format(name))
@@ -360,7 +489,25 @@ class model:
                     raise e
 
         else:
-            source, modeled_extended = SimulationSources.AddExtendedSource(name, spectrum_type, spatial_function, directory=self.wd, extDir=self.extD, ra=ra, dec=dec, glon=glon, glat=glat, major_axis=major_axis, minor_axis=minor_axis, position_angle=position_angle, efile=extended_template, emin=emin, emax=emax, frame=frame, resolution='skip', specfile=specFile, **spectrumargs)
+            source, modeled_extended = SimulationSources.AddExtendedSource(name, 
+                                                                           spectrum_type, 
+                                                                           spatial_function, 
+                                                                           directory=self.wd, 
+                                                                           extDir=self.extD, 
+                                                                           ra=ra, 
+                                                                           dec=dec, 
+                                                                           glon=glon, 
+                                                                           glat=glat, 
+                                                                           major_axis=major_axis, 
+                                                                           minor_axis=minor_axis, 
+                                                                           position_angle=position_angle, 
+                                                                           efile=extended_template, 
+                                                                           emin=emin, 
+                                                                           emax=emax, 
+                                                                           frame=frame, 
+                                                                           resolution='skip', 
+                                                                           specfile=specFile, 
+                                                                           **spectrumargs)
             try:
                 self.model.appendChild(source)
                 print("Added extended source {0} to model.".format(name))
