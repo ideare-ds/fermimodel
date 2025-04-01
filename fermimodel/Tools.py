@@ -257,6 +257,8 @@ def getExtendedTemplate(fitsfile, extDir):
         Full path to extended template
 
     """
+
+    extDir = os.path.expandvars(extDir).replace("$(FERMI_DIR)", os.environ.get("FERMI_DIR")) if os.environ.get("FERMI_DIR") is not None else os.path.expandvars(extDir)
     for root, dirs, files in os.walk(extDir):
         if fitsfile in files:
             return os.path.join(root, fitsfile)
