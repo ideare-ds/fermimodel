@@ -221,7 +221,7 @@ class model:
         if self.model_type == 'simulation':
             try:
                 source_library = self.model.firstChild
-                source_library.writexml(open(filename, "wb"), indent="", addindent="  ", newl="\n")
+                source_library.writexml(open(filename, "w"), indent="", addindent="  ", newl="\n")
                 return filename
             except AttributeError as e:
                 if not hasattr(self, "model"):
@@ -231,7 +231,7 @@ class model:
                     raise e
         elif self.model_type == 'likelihood':
             try:
-                self.model.writexml(open(filename, "wb"), indent="", addindent="\t", newl="\n")
+                self.model.writexml(open(filename, "w"), indent="", addindent="\t", newl="\n")
                 return filename
             except AttributeError as e:
                 if not hasattr(self, "model"):
@@ -264,7 +264,7 @@ class model:
 
         filename = os.path.join(directory,out)
 
-        with open(filename, "wb") as f:
+        with open(filename, "w") as f:
             try:
                 f.write('\n'.join(self.Sources.keys()))
                 return filename

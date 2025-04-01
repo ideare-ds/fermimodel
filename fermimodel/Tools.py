@@ -167,7 +167,7 @@ def writeSpectrum(name, spectype, emin, emax, directory, float_min=1.e-37, **spe
     name = name if name[0] != '_' else name[1:]
     filename = os.path.join(directory,name.replace(" ","")) + '.dat'
 
-    with open(filename, "wb") as f: 
+    with open(filename, "w") as f: 
         if spectype == 'PowerLaw':
             plf = spectrumargs['pl_flux_density']
             p = spectrumargs['pivot_energy']
