@@ -84,8 +84,9 @@ class likelihoodModel:
                 specPars = spec[0].getElementsByTagName('parameter')
                 Ext = (True if (src.getAttribute('type') == 'DiffuseSource' and not self.psF) else False)
                 sname = src.getAttribute('name')
-                #comment out the stuff below for now...likely add something back for official 4FGL release
-                #fixAll=(True if str(sname) in ['3FGL J0534.5+2201i','3FGL J0833.1-4511e','3FGL J1514.0-5915e','3FGL J2021.0+4031e','3FGL J2028.6+4110e'] else False)#account for sources held fixed in 3FGL analysis
+                # comment out the stuff below for now...likely add something back for official 4FGL release
+                # fixAll=(True if str(sname) in ['3FGL J0534.5+2201i','3FGL J0833.1-4511e','3FGL J1514.0-5915e','3FGL J2021.0+4031e','3FGL J2028.6+4110e'] 
+                # else False)#account for sources held fixed in 3FGL analysis
                 
                 if self.oldNames:#if you want the same naming convention as in make1FGLxml.py and make2FGLxml.py, e.g., preceeded by an underscore and no spaces
                     sn = '_' + sname.replace(' ', '')
@@ -109,37 +110,67 @@ class likelihoodModel:
                     Sources[sname]['free'] = False
                     #specOut.setAttribute('apply_edisp','false')#source is fixed, so never apply edisp
                     for p in specPars:
-                        specOut.appendChild(Tools.parameter_element("0","%s"%str(p.getAttribute('name')),"%s"%str(p.getAttribute('max')),"%s"%str(p.getAttribute('min')),"%s"%str(p.getAttribute('scale')),"%s"%str(p.getAttribute('value'))))
+                        specOut.appendChild(Tools.parameter_element("0",
+                                                                    "%s"%str(p.getAttribute('name')),
+                                                                    "%s"%str(p.getAttribute('max')),
+                                                                    "%s"%str(p.getAttribute('min')),
+                                                                    "%s"%str(p.getAttribute('scale')),
+                                                                    "%s"%str(p.getAttribute('value'))))
                 elif dist > self.radLim:
                     if self.var and varIdx >= self.varValue:
                         Sources[sname]['free'] = True
                         #specOut.setAttribute('apply_edisp',ed)
                         for p in specPars:
                             freeFlag=("1" if p.getAttribute('name') == spec[0].getAttribute('normPar') else "0")
-                            specOut.appendChild(Tools.parameter_element("%s"%freeFlag,"%s"%str(p.getAttribute('name')),"%s"%str(p.getAttribute('max')),"%s"%str(p.getAttribute('min')),"%s"%str(p.getAttribute('scale')),"%s"%str(p.getAttribute('value'))))
+                            specOut.appendChild(Tools.parameter_element("%s"%freeFlag,
+                                                                        "%s"%str(p.getAttribute('name')),
+                                                                        "%s"%str(p.getAttribute('max')),
+                                                                        "%s"%str(p.getAttribute('min')),
+                                                                        "%s"%str(p.getAttribute('scale')),
+                                                                        "%s"%str(p.getAttribute('value'))))
                     else:
                         Sources[sname]['free'] = False
                         #specOut.setAttribute('apply_edisp','false')
                         for p in specPars:
-                            specOut.appendChild(Tools.parameter_element("0","%s"%str(p.getAttribute('name')),"%s"%str(p.getAttribute('max')),"%s"%str(p.getAttribute('min')),"%s"%str(p.getAttribute('scale')),"%s"%str(p.getAttribute('value'))))
+                            specOut.appendChild(Tools.parameter_element("0",
+                                                                        "%s"%str(p.getAttribute('name')),
+                                                                        "%s"%str(p.getAttribute('max')),
+                                                                        "%s"%str(p.getAttribute('min')),
+                                                                        "%s"%str(p.getAttribute('scale')),
+                                                                        "%s"%str(p.getAttribute('value'))))
                 elif float(src.getAttribute('TS_value')) >= self.sig:
                     Sources[sname]['free'] = True
                     #specOut.setAttribute('apply_edisp',ed)
                     for p in specPars:
                         freeFlag=("1" if p.getAttribute('name') == spec[0].getAttribute('normPar') or (not self.nO and p.getAttribute('free') == "1") else "0")
-                        specOut.appendChild(Tools.parameter_element("%s"%freeFlag,"%s"%str(p.getAttribute('name')),"%s"%str(p.getAttribute('max')),"%s"%str(p.getAttribute('min')),"%s"%str(p.getAttribute('scale')),"%s"%str(p.getAttribute('value'))))
+                        specOut.appendChild(Tools.parameter_element("%s"%freeFlag,
+                                                                    "%s"%str(p.getAttribute('name')),
+                                                                    "%s"%str(p.getAttribute('max')),
+                                                                    "%s"%str(p.getAttribute('min')),
+                                                                    "%s"%str(p.getAttribute('scale')),
+                                                                    "%s"%str(p.getAttribute('value'))))
                 else:
                     if self.var and varIdx >= self.varValue:
                         Sources[sname]['free'] = True
                         #specOut.setAttribute('apply_edisp',ed)
                         for p in specPars:
                             freeFlag=("1" if p.getAttribute('name') == spec[0].getAttribute('normPar') else "0")
-                            specOut.appendChild(Tools.parameter_element("%s"%freeFlag,"%s"%str(p.getAttribute('name')),"%s"%str(p.getAttribute('max')),"%s"%str(p.getAttribute('min')),"%s"%str(p.getAttribute('scale')),"%s"%str(p.getAttribute('value'))))
+                            specOut.appendChild(Tools.parameter_element("%s"%freeFlag,
+                                                                        "%s"%str(p.getAttribute('name')),
+                                                                        "%s"%str(p.getAttribute('max')),
+                                                                        "%s"%str(p.getAttribute('min')),
+                                                                        "%s"%str(p.getAttribute('scale')),
+                                                                        "%s"%str(p.getAttribute('value'))))
                     else:
                         Sources[sname]['free'] = False
                         #specOut.setAttribute('apply_edisp','false')
                         for p in specPars:
-                            specOut.appendChild(Tools.parameter_element("0","%s"%str(p.getAttribute('name')),"%s"%str(p.getAttribute('max')),"%s"%str(p.getAttribute('min')),"%s"%str(p.getAttribute('scale')),"%s"%str(p.getAttribute('value'))))
+                            specOut.appendChild(Tools.parameter_element("0",
+                                                                        "%s"%str(p.getAttribute('name')),
+                                                                        "%s"%str(p.getAttribute('max')),
+                                                                        "%s"%str(p.getAttribute('min')),
+                                                                        "%s"%str(p.getAttribute('scale')),
+                                                                        "%s"%str(p.getAttribute('value'))))
                 if Ext:
                     spatial = src.getElementsByTagName('spatialModel')
                     spatType = spatial[0].getAttribute('type')
@@ -153,7 +184,12 @@ class likelihoodModel:
                     else:#have to do above to get correct extended source template file localtion
                         spatialOut.setAttribute('type', str(spatType))
                         for p in spatPars:#for radial disks and gaussians, can just do the following
-                            spatialOut.appendChild(Tools.parameter_element("0","%s"%str(p.getAttribute('name')),"%s"%str(p.getAttribute('max')),"%s"%str(p.getAttribute('min')),"%s"%str(p.getAttribute('scale')),"%s"%str(p.getAttribute('value'))))
+                            spatialOut.appendChild(Tools.parameter_element("0",
+                                                                           "%s"%str(p.getAttribute('name')),
+                                                                           "%s"%str(p.getAttribute('max')),
+                                                                           "%s"%str(p.getAttribute('min')),
+                                                                           "%s"%str(p.getAttribute('scale')),
+                                                                           "%s"%str(p.getAttribute('value'))))
                         print('Extended source {0} in ROI, with {1} spatial model.'.format(sname, str(spatType)))
                     
                     srcOut.setAttribute('type', 'DiffuseSource')
@@ -210,7 +246,8 @@ class likelihoodModel:
         if not self.psF:
             print('Added {0} point sources and {1} extended sources'.format(ptSrcNum, extSrcNum))
             if extSrcNum > 0:
-                print('If using unbinned likelihood you will need to rerun gtdiffrsp for the extended sources or rerun the makeModel function with optional argument psForce=True')
+                print('If using unbinned likelihood you will need to rerun gtdiffrsp for the extended sources'
+                'or rerun the makeModel function with optional argument psForce=True')
         else:
             print('Added {0} point sources, note that any extended sources in ROI were modeled as point sources becaue psForce option was set to True'.format(ptSrcNum))
         
@@ -283,7 +320,25 @@ class likelihoodModel:
 
             model.documentElement.appendChild(comment)
 
-            for n, plf, lpf, cof, r, d, gl, gb, p, pli, lpi, lpb, pleci, plecef, plecei, t, TS, En, dist in zip(name[idx], plflux[idx], lpflux[idx], coflux[idx], ra[idx], dec[idx], glon[idx], glat[idx], pivot[idx], plIndex[idx], lpIndex[idx], lpbeta[idx], plecIndex[idx], plecexpFact[idx], plecexpIndex[idx], spectype[idx], Sigvals[idx], EName[idx], distances[idx]):
+            for n, plf, lpf, cof, r, d, gl, gb, p, pli, lpi, lpb, pleci, plecef, plecei, t, TS, En, dist in zip(name[idx], 
+                                                                                                                plflux[idx], 
+                                                                                                                lpflux[idx], 
+                                                                                                                coflux[idx], 
+                                                                                                                ra[idx], 
+                                                                                                                dec[idx], 
+                                                                                                                glon[idx], 
+                                                                                                                glat[idx], 
+                                                                                                                pivot[idx], 
+                                                                                                                plIndex[idx], 
+                                                                                                                lpIndex[idx], 
+                                                                                                                lpbeta[idx], 
+                                                                                                                plecIndex[idx], 
+                                                                                                                plecexpFact[idx], 
+                                                                                                                plecexpIndex[idx], 
+                                                                                                                spectype[idx], 
+                                                                                                                Sigvals[idx], 
+                                                                                                                EName[idx], 
+                                                                                                                distances[idx]):
                 # Create source
                 source = model.createElement('source')
                 vi = 0#remove later if we ever get a similar variability index thing going on
@@ -314,18 +369,69 @@ class likelihoodModel:
                     ptSrcNum += 1
                 
                 if t == 'PowerLaw':
-                    spec, free, comments = LikelihoodSpectra.PLspec(self.roi, self.radLim, self.maxRad, self.varValue, self.var, self.sig, self.nO, plf, pli, p, dist, TS, vi, False)
+                    spec, free, comments = LikelihoodSpectra.PLspec(self.roi, 
+                                                                    self.radLim, 
+                                                                    self.maxRad, 
+                                                                    self.varValue, 
+                                                                    self.var, 
+                                                                    self.sig, 
+                                                                    self.nO, 
+                                                                    plf, 
+                                                                    pli, 
+                                                                    p, 
+                                                                    dist, 
+                                                                    TS, 
+                                                                    vi, 
+                                                                    False)
                 elif t == 'PowerLaw2':#no value for flux from 100 MeV to 100 GeV in fits file
                     if pli != 1.:#so calculate it by integrating PowerLaw spectral model
                         F = plf*p**pli/(-pli+1.)*(1.e5**(-pli+1.)-1.e2**(-pli+1.))
                     else:
                         F=plf*p*np.log(1.e3)
-                    spec, free, comments = LikelihoodSpectra.PL2spec(self.roi, self.radLim, self.maxRad, self.varValue, self.var, self.sig, self.nO, F, pli, dist, TS, vi)
+                    spec, free, comments = LikelihoodSpectra.PL2spec(self.roi, 
+                                                                     self.radLim, 
+                                                                     self.maxRad, 
+                                                                     self.varValue, 
+                                                                     self.var, 
+                                                                     self.sig, 
+                                                                     self.nO, 
+                                                                     F, 
+                                                                     pli, 
+                                                                     dist, 
+                                                                     TS, 
+                                                                     vi)
                 elif t == 'LogParabola':
-                    spec, free, comments = LikelihoodSpectra.LPspec(self.roi, self.radLim, self.maxRad, self.varValue, self.var, self.sig, self.nO, lpf, lpi, p, lpb, dist, TS, vi)
+                    spec, free, comments = LikelihoodSpectra.LPspec(self.roi, 
+                                                                    self.radLim, 
+                                                                    self.maxRad, 
+                                                                    self.varValue, 
+                                                                    self.var, 
+                                                                    self.sig, 
+                                                                    self.nO, 
+                                                                    lpf, 
+                                                                    lpi, 
+                                                                    p, 
+                                                                    lpb, 
+                                                                    dist, 
+                                                                    TS, 
+                                                                    vi)
                 elif t in ['PLSuperExpCutoff', 'PLSuperExpCutoff2']:
                 # elif (t == 'PLSuperExpCutoff') or (t == 'PLSuperExpCutoff2'):
-                    spec, free, comments = LikelihoodSpectra.CO2spec(self.roi, self.radLim, self.maxRad, self.varValue, self.var, self.sig, self.nO, cof, pleci, p, plecef, plecei, dist, TS, vi)
+                    spec, free, comments = LikelihoodSpectra.CO2spec(self.roi, 
+                                                                     self.radLim, 
+                                                                     self.maxRad, 
+                                                                     self.varValue, 
+                                                                     self.var, 
+                                                                     self.sig, 
+                                                                     self.nO, 
+                                                                     cof, 
+                                                                     pleci, 
+                                                                     p, 
+                                                                     plecef, 
+                                                                     plecei, 
+                                                                     dist, 
+                                                                     TS, 
+                                                                     vi)
                 else:
                     print("{0} has spectrum {1} which currently can't be modeled.".format(srcname, t))
                     spec = None
@@ -345,7 +451,12 @@ class likelihoodModel:
                     eSize = None
                     eR = None
                     eD = None
-                    for EXTNAME,EXTFILE,EXTFUNC,EXTSIZE,EXTRA,EXTDEC in zip(extName,extFile,extFunc,extSize,extRa,extDec):
+                    for EXTNAME, EXTFILE, EXTFUNC, EXTSIZE, EXTRA, EXTDEC in zip(extName, 
+                                                                                 extFile, 
+                                                                                 extFunc, 
+                                                                                 extSize, 
+                                                                                 extRa, 
+                                                                                 extDec):
                         if En == EXTNAME:
                             efunc = EXTFUNC
                             efunc = ('RadialGaussian' if efunc == 'RadialGauss' else efunc)
@@ -529,9 +640,26 @@ class simulationModel:
                 comment = model.createComment("Sources between [{0},{1})".format(x - step, x))
                 idx = np.logical_and(distances < x, distances >= x - step)
             model.documentElement.appendChild(comment)
-            for n, plf, lpf, cof, r, d, gb, gl, p, pli, lpi, lpb, pleci, plecef, plecei, t, En, dist in zip(name[idx], plflux[idx], lpflux[idx], coflux[idx], ra[idx], dec[idx], glat[idx], glon[idx], pivot[idx], plIndex[idx], lpIndex[idx], lpbeta[idx], plecIndex[idx], plecexpFact[idx], plecexpIndex[idx], spectype[idx], EName[idx], distances[idx]):
+            for n, plf, lpf, cof, r, d, gb, gl, p, pli, lpi, lpb, pleci, plecef, plecei, t, En, dist in zip(name[idx], 
+                                                                                                            plflux[idx], 
+                                                                                                            lpflux[idx], 
+                                                                                                            coflux[idx], 
+                                                                                                            ra[idx], 
+                                                                                                            dec[idx], 
+                                                                                                            glat[idx], 
+                                                                                                            glon[idx], 
+                                                                                                            pivot[idx], 
+                                                                                                            plIndex[idx], 
+                                                                                                            lpIndex[idx], 
+                                                                                                            lpbeta[idx], 
+                                                                                                            plecIndex[idx], 
+                                                                                                            plecexpFact[idx], 
+                                                                                                            plecexpIndex[idx], 
+                                                                                                            spectype[idx], 
+                                                                                                            EName[idx], 
+                                                                                                            distances[idx]):
                 vi = 0 #remove later if we ever get a similar variability index thing going on
-                E = (True if n[-1] == 'e' else False)
+                E = (n[-1] == 'e')
 
                 # Determine the name of the source given the input flags and get the efile if it exists
                 srcname = n
@@ -573,7 +701,33 @@ class simulationModel:
 
                 if E and not self.psF:
                     try:
-                        source, modeled_extended = SimulationSources.AddExtendedSource(srcname, t, spatialfunc, directory=self.wd, extDir=self.extD, ra=r, dec=d, glon=gl, glat=gb, major_axis=semimajor, minor_axis=semiminor, position_angle=posang, efile=efile, emin=self.emin, emax=self.emax, frame=self.frame, resolution=self.extSrcRes, pivot_energy=p, pl_flux_density=plf, lp_flux_density=lpf, plec_flux_density=cof, pl_index=pli, lp_index=lpi, lp_beta=lpb, plec_index=pleci, plec_expfactor=plecef, plec_exp_index=plecei)
+                        source, modeled_extended = SimulationSources.AddExtendedSource(srcname, 
+                                                                                       t, 
+                                                                                       spatialfunc, 
+                                                                                       directory=self.wd, 
+                                                                                       extDir=self.extD, 
+                                                                                       ra=r, 
+                                                                                       dec=d, 
+                                                                                       glon=gl, 
+                                                                                       glat=gb, 
+                                                                                       major_axis=semimajor, 
+                                                                                       minor_axis=semiminor, 
+                                                                                       position_angle=posang, 
+                                                                                       efile=efile, 
+                                                                                       emin=self.emin, 
+                                                                                       emax=self.emax, 
+                                                                                       frame=self.frame, 
+                                                                                       resolution=self.extSrcRes, 
+                                                                                       pivot_energy=p, 
+                                                                                       pl_flux_density=plf, 
+                                                                                       lp_flux_density=lpf, 
+                                                                                       plec_flux_density=cof, 
+                                                                                       pl_index=pli, 
+                                                                                       lp_index=lpi, 
+                                                                                       lp_beta=lpb, 
+                                                                                       plec_index=pleci, 
+                                                                                       plec_expfactor=plecef, 
+                                                                                       plec_exp_index=plecei)
                         model.documentElement.appendChild(source)
                         if modeled_extended:
                             Sources[srcname] = {'ra': r, 'dec':d, 'glon':gl, 'glat':gb, 'stype':t, 'Spatial_Function':spatialfunc, 'extFile':efile, 'E':True, 'diffuse':False}
@@ -588,7 +742,26 @@ class simulationModel:
                         continue
                 else:
                     try:
-                        source = SimulationSources.AddPointSource(srcname, t, self.emin, self.emax, self.wd, ra=r, dec=d, glon=gl, glat=gb, frame=self.frame, pivot_energy=p, pl_flux_density=plf, lp_flux_density=lpf, plec_flux_density=cof, pl_index=pli, lp_index=lpi, lp_beta=lpb, plec_index=pleci, plec_expfactor=plecef, plec_exp_index=plecei)
+                        source = SimulationSources.AddPointSource(srcname, 
+                                                                  t, 
+                                                                  self.emin, 
+                                                                  self.emax, 
+                                                                  self.wd, 
+                                                                  ra=r, 
+                                                                  dec=d, 
+                                                                  glon=gl, 
+                                                                  glat=gb, 
+                                                                  frame=self.frame, 
+                                                                  pivot_energy=p, 
+                                                                  pl_flux_density=plf, 
+                                                                  lp_flux_density=lpf, 
+                                                                  plec_flux_density=cof, 
+                                                                  pl_index=pli, 
+                                                                  lp_index=lpi, 
+                                                                  lp_beta=lpb, 
+                                                                  plec_index=pleci, 
+                                                                  plec_expfactor=plecef, 
+                                                                  plec_exp_index=plecei)
                         model.documentElement.appendChild(source)
                         Sources[srcname] = {'ra':r, 'dec':d, 'glon':gl, 'glat':gb, 'stype':t, 'Spatial_Function':'PointSource', 'extFile':'', 'E':E, 'diffuse':False}
                         ptSrcNum += 1
@@ -610,7 +783,7 @@ class simulationModel:
                 if self.GDflux is None: 
                     if os.path.basename(self.GD) == 'gll_iem_v06.fits':
                         self.GDflux = 0.0006728539887251224
-                    elif (os.path.basename(self.GD) == 'gll_iem_v07.fits') or (os.path.basename(self.GD) == 'gll_iem_v07_revised.fits'):
+                    elif os.path.basename(self.GD) in ('gll_iem_v07.fits', 'gll_iem_v07_revised.fits'):
                         self.GDflux = 0.0008463167432920544
                     else:
                         self.GDflux = 0.
@@ -619,7 +792,18 @@ class simulationModel:
                     gd, ext = os.path.splitext(os.path.basename(self.GD))
                     print("Masking Galactic Diffuse model...")
                     print("Applying mask of {0} degrees around ({1}, {2})".format(self.roi[2] + self.ER, self.roi[0], self.roi[1]))
-                    self.GD, self.GDflux = MaskFits.maskFits(self.GD, out=os.path.join(self.wd, gd + "_masked" + ext), mask_type='radial', radius=self.roi[2] + self.ER, radius2=None, angle=0., center=(self.roi[0], self.roi[1]), frame='fk5', unit='degree', clobber=True)
+                    self.GD, self.GDflux = MaskFits.maskFits(self.GD, 
+                                                             out=os.path.join(self.wd, 
+                                                             gd + "_masked" + ext), 
+                                                             mask_type='radial', 
+                                                             radius=self.roi[2] + self.ER, 
+                                                             radius2=None, 
+                                                             angle=0., 
+                                                             center=(self.roi[0], 
+                                                             self.roi[1]), 
+                                                             frame='fk5', 
+                                                             unit='degree', 
+                                                             clobber=True)
                     print("Done.")
                 
                 source = model.createElement('source')
@@ -658,7 +842,18 @@ class simulationModel:
                 iso, ext = os.path.splitext(os.path.basename(self.ISOpath))
                 print("Masking Isotropic Diffuse model...")
                 print("Applying mask of {0} degrees around ({1}, {2})".format(self.roi[2], self.roi[0], self.roi[1]))
-                self.ISOpath = MaskFits.maskFits(self.ISOpath, out=os.path.join(self.wd, iso + "_masked" + ext), mask_type='radial', radius=self.roi[2] + self.ER + 6., radius2=None, angle=0., center=(self.roi[0], self.roi[1]), frame='fk5', unit='deg', clobber=True)
+                self.ISOpath = MaskFits.maskFits(self.ISOpath, 
+                                                 out=os.path.join(self.wd, 
+                                                 iso + "_masked" + ext), 
+                                                 mask_type='radial', 
+                                                 radius=self.roi[2] + self.ER + 6., 
+                                                 radius2=None, 
+                                                 angle=0., 
+                                                 center=(self.roi[0], 
+                                                 self.roi[1]), 
+                                                 frame='fk5', 
+                                                 unit='deg', 
+                                                 clobber=True)
                 print("Done.")
 
             if self.ISOflux is None:
@@ -677,7 +872,15 @@ class simulationModel:
             source.appendChild(comment)
             source.appendChild(spec)
             model.documentElement.appendChild(source)
-            Sources[self.ISOn] = {'ra':266.4049962340225, 'dec':-28.936172403391776, 'glon':0., 'glat':0., 'stype':'FileFunction', 'Spatial_Function':'SpatialMap', 'extFile':self.ISOpath, 'E':True, 'diffuse':True}
+            Sources[self.ISOn] = {'ra':266.4049962340225, 
+                                  'dec':-28.936172403391776, 
+                                  'glon':0., 
+                                  'glat':0., 
+                                  'stype':'FileFunction', 
+                                  'Spatial_Function':'SpatialMap', 
+                                  'extFile':self.ISOpath, 
+                                  'E':True, 
+                                  'diffuse':True}
             extSrcNum += 1
 
         if not self.psF:
@@ -776,7 +979,33 @@ class simulationModel:
                         continue
 
                     try:
-                        source, modeled_extended = SimulationSources.AddExtendedSource(srcname, t, spatialfunc, directory=self.wd, extDir=self.extD, ra=r, dec=d, glon=gl, glat=gb, major_axis=semimajor, minor_axis=semiminor, position_angle=posang, efile=efile, emin=self.emin, emax=self.emax, frame=self.frame, resolution=self.extSrcRes, pivot_energy=p, pl_flux_density=plf, lp_flux_density=lpf, plec_flux_density=cof, pl_index=pli, lp_index=lpi, lp_beta=lpb, plec_index=pleci, plec_expfactor=plecef, plec_exp_index=plecei)
+                        source, modeled_extended = SimulationSources.AddExtendedSource(srcname, 
+                                                                                       t, 
+                                                                                       spatialfunc, 
+                                                                                       directory=self.wd, 
+                                                                                       extDir=self.extD, 
+                                                                                       ra=r, 
+                                                                                       dec=d, 
+                                                                                       glon=gl, 
+                                                                                       glat=gb, 
+                                                                                       major_axis=semimajor, 
+                                                                                       minor_axis=semiminor, 
+                                                                                       position_angle=posang, 
+                                                                                       efile=efile, 
+                                                                                       emin=self.emin, 
+                                                                                       emax=self.emax, 
+                                                                                       frame=self.frame, 
+                                                                                       resolution=self.extSrcRes, 
+                                                                                       pivot_energy=p, 
+                                                                                       pl_flux_density=plf, 
+                                                                                       lp_flux_density=lpf, 
+                                                                                       plec_flux_density=cof, 
+                                                                                       pl_index=pli, 
+                                                                                       lp_index=lpi, 
+                                                                                       lp_beta=lpb, 
+                                                                                       plec_index=pleci, 
+                                                                                       plec_expfactor=plecef, 
+                                                                                       plec_exp_index=plecei)
                         model.documentElement.appendChild(source)
                         if modeled_extended:
                             Sources[srcname] = {'ra': r, 'dec':d, 'glon':gl, 'glat':gb, 'stype':t, 'Spatial_Function':spatialfunc, 'extFile':efile, 'E':True, 'diffuse':False}
@@ -791,7 +1020,26 @@ class simulationModel:
                         continue
                 else:
                     try:
-                        source = SimulationSources.AddPointSource(srcname, t, self.emin, self.emax, self.wd, ra=r, dec=d, glon=gl, glat=gb, frame=self.frame, pivot_energy=p, pl_flux_density=plf, lp_flux_density=lpf, plec_flux_density=cof, pl_index=pli, lp_index=lpi, lp_beta=lpb, plec_index=pleci, plec_expfactor=plecef, plec_exp_index=plecei)
+                        source = SimulationSources.AddPointSource(srcname, 
+                                                                  t, 
+                                                                  self.emin, 
+                                                                  self.emax, 
+                                                                  self.wd, 
+                                                                  ra=r, 
+                                                                  dec=d, 
+                                                                  glon=gl, 
+                                                                  glat=gb, 
+                                                                  frame=self.frame, 
+                                                                  pivot_energy=p, 
+                                                                  pl_flux_density=plf, 
+                                                                  lp_flux_density=lpf, 
+                                                                  plec_flux_density=cof, 
+                                                                  pl_index=pli, 
+                                                                  lp_index=lpi, 
+                                                                  lp_beta=lpb, 
+                                                                  plec_index=pleci, 
+                                                                  plec_expfactor=plecef, 
+                                                                  plec_exp_index=plecei)
                         model.documentElement.appendChild(source)
                         Sources[srcname] = {'ra':r, 'dec':d, 'glon':gl, 'glat':gb, 'stype':t, 'Spatial_Function':'PointSource', 'extFile':'', 'E':E, 'diffuse':False}
                         ptSrcNum += 1
@@ -813,7 +1061,7 @@ class simulationModel:
                 if self.GDflux is None: 
                     if os.path.basename(self.GD) == 'gll_iem_v06.fits':
                         self.GDflux = 0.0006728539887251224
-                    elif (os.path.basename(self.GD) == 'gll_iem_v07.fits') or (os.path.basename(self.GD) == 'gll_iem_v07_revised.fits'):
+                    elif os.path.basename(self.GD) in ('gll_iem_v07.fits', 'gll_iem_v07_revised.fits'):
                         self.GDflux = 0.0008463167432920544
                     else:
                         self.GDflux = 0.

@@ -15,7 +15,25 @@ from fermimodel.Exceptions import ExtendedTemplateError
 #     """Raised when input spectrum type does not match allowed spectrum types"""
 #     pass
 
-def AddExtendedSource(name, spectype, spatialfunc, directory='', extDir='', ra=None, dec=None, glon=None, glat=None, major_axis=None, minor_axis=None, position_angle=None, efile='', emin=1.e2, emax=5.e5, frame='galactic', resolution='force-point', specfile=None, **spectrumargs):
+def AddExtendedSource(name, 
+                      spectype, 
+                      spatialfunc, 
+                      directory='', 
+                      extDir='', 
+                      ra=None, 
+                      dec=None, 
+                      glon=None, 
+                      glat=None, 
+                      major_axis=None, 
+                      minor_axis=None, 
+                      position_angle=None, 
+                      efile='', 
+                      emin=1.e2, 
+                      emax=5.e5, 
+                      frame='galactic', 
+                      resolution='force-point', 
+                      specfile=None, 
+                      **spectrumargs):
     """Add an extended source to the model
 
     Parameters
@@ -97,7 +115,14 @@ def AddExtendedSource(name, spectype, spatialfunc, directory='', extDir='', ra=N
         # Spatial Function
         if spatialfunc == 'RadialGauss':
             try:
-                child1, child2 = GaussianSource(emin, emax, ra, dec, major_axis, minor_axis, position_angle, **spectrumargs)
+                child1, child2 = GaussianSource(emin, 
+                                                emax, 
+                                                ra, 
+                                                dec, 
+                                                major_axis, 
+                                                minor_axis, 
+                                                position_angle, 
+                                                **spectrumargs)
                 extended = True
             except SpectrumError as e:
                 raise AddSourceError(e)
@@ -129,7 +154,15 @@ def AddExtendedSource(name, spectype, spatialfunc, directory='', extDir='', ra=N
                             raise AddSourceError(e)
                     source.setAttribute('flux', "{}".format(flux))
                     try:
-                        child1, child2 = GammaPointSource(spectype, emin, emax, frame=frame, ra=ra, dec=dec, glon=glon, glat=glat, **spectrumargs)
+                        child1, child2 = GammaPointSource(spectype, 
+                                                          emin, 
+                                                          emax, 
+                                                          frame=frame, 
+                                                          ra=ra, 
+                                                          dec=dec, 
+                                                          glon=glon, 
+                                                          glat=glat, 
+                                                          **spectrumargs)
                         extended = False
                     except SpectrumError as e:
                         raise AddSourceError(e)
@@ -145,7 +178,14 @@ def AddExtendedSource(name, spectype, spatialfunc, directory='', extDir='', ra=N
                 fitsfile = efile
             else:
                 fitsfile = Tools.getExtendedTemplate(efile, extDir)
-            child1, child2 = FileSpectrumMap(name, spectype, emin, emax, fitsfile, directory, specfile=specfile, **spectrumargs)
+            child1, child2 = FileSpectrumMap(name, 
+                                             spectype, 
+                                             emin, 
+                                             emax, 
+                                             fitsfile, 
+                                             directory, 
+                                             specfile=specfile, 
+                                             **spectrumargs)
             extended = True
         except SpectrumError as e:
             raise AddSourceError(e)
@@ -153,7 +193,18 @@ def AddExtendedSource(name, spectype, spatialfunc, directory='', extDir='', ra=N
             if resolution == 'force-point':
                 print("Could not find a template for {0}. Modeling source as a FileSpectrum point source.".format(name))
                 try:
-                    child1, child2 = FileSpectrum(name, spectype, emin, emax, directory, frame=frame, ra=ra, dec=dec, glon=glon, glat=glat, specfile=specfile, **spectrumargs)
+                    child1, child2 = FileSpectrum(name, 
+                                                  spectype, 
+                                                  emin, 
+                                                  emax, 
+                                                  directory, 
+                                                  frame=frame, 
+                                                  ra=ra, 
+                                                  dec=dec, 
+                                                  glon=glon, 
+                                                  glat=glat, 
+                                                  specfile=specfile, 
+                                                  **spectrumargs)
                     extended = False
                 except SpectrumError as e:
                     raise AddSourceError(e)
@@ -169,7 +220,12 @@ def AddExtendedSource(name, spectype, spatialfunc, directory='', extDir='', ra=N
                 fitsfile = efile
             else:
                 fitsfile = Tools.getExtendedTemplate(efile, extDir)
-            child1, child2 = MapCube(spectype, emin, emax, fitsfile, directory, **spectrumargs)
+            child1, child2 = MapCube(spectype, 
+                                     emin, 
+                                     emax, 
+                                     fitsfile, 
+                                     directory, 
+                                     **spectrumargs)
             extended = True
         except SpectrumError as e:
             raise AddSourceError(e)
@@ -181,7 +237,14 @@ def AddExtendedSource(name, spectype, spatialfunc, directory='', extDir='', ra=N
                 fitsfile = efile
             else:
                 fitsfile = Tools.getExtendedTemplate(efile, extDir)
-            child1, child2 = FileSpectrumMap(name, spectype, emin, emax, fitsfile, directory, specfile=specfile, **spectrumargs)
+            child1, child2 = FileSpectrumMap(name, 
+                                             spectype, 
+                                             emin, 
+                                             emax, 
+                                             fitsfile, 
+                                             directory, 
+                                             specfile=specfile, 
+                                             **spectrumargs)
             extended = True
         except SpectrumError as e:
             raise AddSourceError(e)
@@ -189,7 +252,15 @@ def AddExtendedSource(name, spectype, spatialfunc, directory='', extDir='', ra=N
             if resolution == 'force-point':
                 print("Could not find a template for {0}. Modeling source as a BrokenPowerLaw point source.".format(name))
                 try:
-                    child1, child2 = GammaPointSource(spectype, emin, emax, frame=frame, ra=ra, dec=dec, glon=glon, glat=glat, **spectrumargs)
+                    child1, child2 = GammaPointSource(spectype, 
+                                                      emin, 
+                                                      emax, 
+                                                      frame=frame, 
+                                                      ra=ra, 
+                                                      dec=dec, 
+                                                      glon=glon, 
+                                                      glat=glat, 
+                                                      **spectrumargs)
                     extended = False
                 except SpectrumError as e:
                         raise AddSourceError(e)
@@ -205,7 +276,14 @@ def AddExtendedSource(name, spectype, spatialfunc, directory='', extDir='', ra=N
                 fitsfile = efile
             else:
                 fitsfile = Tools.getExtendedTemplate(efile, extDir)
-            child1, child2 = FileSpectrumMap(name, spectype, emin, emax, fitsfile, directory, specfile=specfile, **spectrumargs)
+            child1, child2 = FileSpectrumMap(name, 
+                                             spectype, 
+                                             emin, 
+                                             emax, 
+                                             fitsfile, 
+                                             directory, 
+                                             specfile=specfile, 
+                                             **spectrumargs)
             extended = True
         except SpectrumError as e:
             raise AddSourceError(e)
@@ -213,7 +291,18 @@ def AddExtendedSource(name, spectype, spatialfunc, directory='', extDir='', ra=N
             if resolution == 'force-point':
                 print("Could not find a template for {0}. Modeling source as a FileSpectrum point source.".format(name))
                 try:
-                    child1, child2 = FileSpectrum(name, spectype, emin, emax, directory, frame=frame, ra=ra, dec=dec, glon=glon, glat=glat, specfile=specfile, **spectrumargs)
+                    child1, child2 = FileSpectrum(name, 
+                                                  spectype, 
+                                                  emin, 
+                                                  emax, 
+                                                  directory, 
+                                                  frame=frame, 
+                                                  ra=ra, 
+                                                  dec=dec, 
+                                                  glon=glon, 
+                                                  glat=glat, 
+                                                  specfile=specfile, 
+                                                  **spectrumargs)
                     extended = False
                 except SpectrumError as e:
                     raise AddSourceError(e)
@@ -232,7 +321,18 @@ def AddExtendedSource(name, spectype, spatialfunc, directory='', extDir='', ra=N
 
     return source, extended
 
-def AddPointSource(name, spectype, emin, emax, directory, ra=None, dec=None, glon=None, glat=None, frame='galactic', specfile=None, **spectrumargs):
+def AddPointSource(name, 
+                   spectype, 
+                   emin, 
+                   emax, 
+                   directory, 
+                   ra=None, 
+                   dec=None, 
+                   glon=None, 
+                   glat=None, 
+                   frame='galactic', 
+                   specfile=None, 
+                   **spectrumargs):
     """Add a point source to the model
 
     Parameters
@@ -292,7 +392,7 @@ def AddPointSource(name, spectype, emin, emax, directory, ra=None, dec=None, glo
     spec = xmldoc_out.createElement('spectrum')
     spec.setAttribute('escale', 'MeV')
 
-    if (spectype == 'PowerLaw') or (spectype == 'Monochromatic') or (spectype == 'BrokenPowerLaw'):
+    if spectype in ['PowerLaw' 'Monochromatic', 'BrokenPowerLaw']:
         try:
             flux = spectrumargs['flux']
         except KeyError:
@@ -302,12 +402,31 @@ def AddPointSource(name, spectype, emin, emax, directory, ra=None, dec=None, glo
                 raise AddSourceError(e)
         source.setAttribute('flux', "{}".format(flux))
         try:
-            child1, child2 = GammaPointSource(spectype, emin, emax, frame=frame, ra=ra, dec=dec, glon=glon, glat=glat, **spectrumargs)
+            child1, child2 = GammaPointSource(spectype, 
+                                              emin, 
+                                              emax, 
+                                              frame=frame, 
+                                              ra=ra, 
+                                              dec=dec, 
+                                              glon=glon, 
+                                              glat=glat, 
+                                              **spectrumargs)
         except SpectrumError as e:
             raise AddSourceError(e)
     elif spectype in ['LogParabola', 'PLSuperExpCutoff2', 'PLSuperExpCutoff', 'FileSpectrum']:
         try:
-            child1, child2 = FileSpectrum(name, spectype, emin, emax, directory, frame=frame, ra=ra, dec=dec, glon=glon, glat=glat, specfile=specfile, **spectrumargs)
+            child1, child2 = FileSpectrum(name, 
+                                          spectype, 
+                                          emin, 
+                                          emax, 
+                                          directory, 
+                                          frame=frame, 
+                                          ra=ra, 
+                                          dec=dec, 
+                                          glon=glon, 
+                                          glat=glat, 
+                                          specfile=specfile, 
+                                          **spectrumargs)
         except SpectrumError as e:
             raise AddSourceError(e)
     else:
@@ -480,7 +599,8 @@ def GammaPointSource(spectype, emin, emax, frame='galactic', ra=None, dec=None, 
             gamma2 = spectrumargs['gamma2']
             ebreak = spectrumargs['ebreak']
         except KeyError:
-            raise SpectrumError("GammaPointSourceError: BrokenPowerLaw source must include low energy power law index (pl_index), high energy power law index (gamma2), and break energy (ebreak).")
+            raise SpectrumError("GammaPointSourceError: BrokenPowerLaw source must include low energy power law index (pl_index),"
+                                "high energy power law index (gamma2), and break energy (ebreak).")
 
         power_law.setAttribute("emin", "{}".format(emin))
         power_law.setAttribute("emax", "{}".format(emax))
@@ -504,7 +624,18 @@ def GammaPointSource(spectype, emin, emax, frame='galactic', ra=None, dec=None, 
 
     return particle, direction
 
-def FileSpectrum(name, spectype, emin, emax, directory, frame='galactic', ra=None, dec=None, glon=None, glat=None, specfile=None, **spectrumargs):
+def FileSpectrum(name, 
+                 spectype, 
+                 emin, 
+                 emax, 
+                 directory, 
+                 frame='galactic', 
+                 ra=None, 
+                 dec=None, 
+                 glon=None, 
+                 glat=None, 
+                 specfile=None, 
+                 **spectrumargs):
     """Observation Simulation FileSpectrum flux definition"""
     xmldoc_out = minidom.getDOMImplementation().createDocument(None, None, None)
     
