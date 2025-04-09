@@ -58,16 +58,20 @@ class likelihoodModel:
                         srcRA = float(p.getAttribute('value'))
                     elif p.getAttribute('name') == 'DEC':
                         srcDEC = float(p.getAttribute('value'))
+                    else:
+                        continue
             else:
                 try:
                     srcDEC = float(src.getAttribute('DEC'))
                     srcRA = float(src.getAttribute('RA'))
-                except:
+                except ValueError:
                     for p in src.getElementsByTagName('spatialModel')[0].getElementsByTagName('parameter'):
                         if p.getAttribute('name') == 'RA':
                             srcRA=float(p.getAttribute('value'))
-                        if p.getAttribute('name') == 'DEC':
+                        elif p.getAttribute('name') == 'DEC':
                             srcDEC=float(p.getAttribute('value'))
+                        else:
+                            continue
 
             dist = Tools.angsep(self.roi[0], self.roi[1], srcRA, srcDEC) #check that source is within ROI radius + 10 degress of ROI center
 
@@ -89,7 +93,7 @@ class likelihoodModel:
                 # else False)#account for sources held fixed in 3FGL analysis
                 
                 if self.oldNames:#if you want the same naming convention as in make1FGLxml.py and make2FGLxml.py, e.g., preceeded by an underscore and no spaces
-                    sn = '_' + sname.replace(' ', '')
+                    sname = '_' + sname.replace(' ', '')
                 # varIdx = float(src.getAttribute('Variability_Index'))
                 varIdx = 0.
                 Sources[sname] = {'ra':srcRA, 'dec':srcDEC, 'glon':srcGL, 'glat':srcGB, 'E':Ext, 'stype':str(specType), 'diffuse':False}
@@ -658,7 +662,7 @@ class simulationModel:
                                                                                                             spectype[idx], 
                                                                                                             EName[idx], 
                                                                                                             distances[idx]):
-                vi = 0 #remove later if we ever get a similar variability index thing going on
+                # vi = 0 #remove later if we ever get a similar variability index thing going on
                 E = (n[-1] == 'e')
 
                 # Determine the name of the source given the input flags and get the efile if it exists
