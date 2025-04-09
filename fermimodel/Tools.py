@@ -193,9 +193,19 @@ def writeSpectrum(name, spectype, emin, emax, directory, float_min=1.e-37, **spe
             pleci = spectrumargs['plec_index']
             plecef = spectrumargs['plec_expfactor']
             plecei = spectrumargs['plec_exp_index']
-            num = np.ceil(10.*(np.log10(emax) - np.log10(emin))).astype(int) + 1 # Number of energy bins, roughly 10 per decade
-            E = np.logspace(np.log10(emin), np.log10(emax), num=num)
-            dflux = cof*((E/p)**(-pleci))*np.exp(plecef*((p**plecei) - (E**plecei)))
+            e1 = p*np.exp(-1/100/plecei)
+            e2 = p*np.exp(1/100/plecei)
+            num1 = np.ceil(10.*(np.log10(e1) - np.log10(emin))).astype(int) + 1 # Number of energy bins, roughly 10 per decade
+            num2 = np.ceil(10.*(np.log10(e2) - np.log10(e1))).astype(int) + 1 # Number of energy bins, rooughly 10 per decade
+            num3 = np.ceil(10.*(np.log10(emax) - np.log10(e2))).astype(int) + 1 # Number of energy bins, rooughly 10 per decade
+            E1 = np.logspace(np.log10(emin), np.log10(e1), num=num1, endpoint=False)
+            E2 = np.logspace(np.log10(e1), np.log10(e2), num=num2, endpoint=False)
+            E3 = np.logspace(np.log10(e2), np.log10(emax), num=num3)
+            dflux1 = cof * (E1/p)**(-pleci + plecef/plecei) * np.exp(plecef/plecei**2 * (1- (E1/p)**plecei))
+            dflux2 = cof * (E2/p)**(-pleci - plecef/2 * np.log(E2/p) - plecef*plecei/6 * (np.log(E2/p))**2 - plecef*plecei**2/24 * (np.log(E2/p))**3)
+            dflux3 = cof * (E3/p)**(-pleci + plecef/plecei) * np.exp(plecef/plecei**2 * (1- (E3/p)**plecei))
+            dflux = np.concatenate((dflux1, dflux2, dflux3))
+            E = np.concatenate((E1, E2, E3))
         elif spectype == 'BrokenPowerLaw':
             plf = spectrumargs['pl_flux_density']
             p = spectrumargs['pivot_energy']
