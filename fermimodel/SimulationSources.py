@@ -553,6 +553,11 @@ def Isotropic(emin, emax, **spectrumargs):
             flux = Tools.getFlux("PowerLaw", emin, emax, **spectrumargs)
         except GetFluxError as e:
             raise SpectrumError(e)
+        
+    try:
+        pli = spectrumargs['pl_index']
+    except KeyError:
+        raise SpectrumError("IsotropicError: Isotropic source must include power law index (pl_index)")
 
     spectrumClass = xmldoc_out.createElement("SpectrumClass")
     spectrumClass.setAttribute("name", "Isotropic")
