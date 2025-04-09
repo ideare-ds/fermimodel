@@ -392,7 +392,7 @@ def AddPointSource(name,
     spec = xmldoc_out.createElement('spectrum')
     spec.setAttribute('escale', 'MeV')
 
-    if spectype in ['PowerLaw' 'Monochromatic', 'BrokenPowerLaw']:
+    if spectype in ['PowerLaw', 'Monochromatic', 'BrokenPowerLaw']:
         try:
             flux = spectrumargs['flux']
         except KeyError:
