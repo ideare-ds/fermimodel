@@ -2,8 +2,7 @@ import os
 import numpy as np
 import astropy.io.fits as pyfits
 from astropy import units
-from scipy.integrate import quad, trapz
-from scipy.special import gamma, gammaincc
+from scipy.integrate import quad
 from xml.dom import minidom
 
 from fermimodel.Exceptions import GetFluxError
@@ -82,14 +81,16 @@ def getFlux(spectype, emin, emax, **spectrumargs):
         plf= spectrumargs['pl_flux_density']
         p = spectrumargs['pivot_energy']
         pli = spectrumargs['pl_index']
-        integrated_dflux = lambda energy: (energy*plf*(energy/p)**(-pli))/(1. - pli)
+        def integrated_dflux(energy):
+            return (energy*plf*(energy/p)**(-pli))/(1. - pli)
         flux = integrated_dflux(emax) - integrated_dflux(emin)
     elif spectype == 'LogParabola':
         lpf = spectrumargs['lp_flux_density']
         p = spectrumargs['pivot_energy']
         lpb = spectrumargs['lp_beta']
         lpi = spectrumargs['lp_index']
-        dflux = lambda energy: lpf*((energy/p)**(- lpi - lpb*np.log(energy/p)))
+        def dflux(energy):
+            return lpf*((energy/p)**(- lpi - lpb*np.log(energy/p)))
         flux, fluxunc = quad(dflux, emin, emax, epsabs=0)
     elif spectype in ['PLSuperExpCutoff', 'PLSuperExpCutoff2']:
         cof = spectrumargs['plec_flux_density']
@@ -109,8 +110,10 @@ def getFlux(spectype, emin, emax, **spectrumargs):
         pli = spectrumargs['pl_index']
         ebreak = spectrumargs['ebreak']
         gamma2 = spectrumargs['gamma2']
-        integrated_dflux1 = lambda energy: (energy*plf*(energy/p)**(-pli))/(1. - pli)
-        integrated_dflux2 = lambda energy: (energy*plf*(energy/p)**(-gamma2))/(1. - gamma2)
+        def integrated_dflux1(energy):
+            return (energy*plf*(energy/p)**(-pli))/(1. - pli)
+        def integrated_dflux2(energy):
+            return (energy*plf*(energy/p)**(-gamma2))/(1. - gamma2)
         flux = integrated_dflux2(emax) - integrated_dflux2(ebreak) + integrated_dflux1(ebreak) - integrated_dflux1(emin)
     else:
         raise GetFluxError("FluxError: Cannot calculate flux for {0} spectral type.".format(spectype))
@@ -301,11 +304,7 @@ def getPos(ft1):
         print('Error: No position keyword found in fits header (assuming position is RA and DEC.  Exiting...')
         exit()
     keyword='DSVAL%i' %keynum
-    try:
-        ra,dec,rad=header[keyword].strip('CIRCLE()').split(',') #gets rid of the circle and parenthesis part and splits around the comma
-        float(ra)
-    except:
-        ra,dec,rad=header[keyword].strip('circle()').split(',')
+    ra,dec,rad=header[keyword].strip('CIRCLE()').strip('circle()').split(',') #gets rid of the circle and parenthesis part and splits around the comma
     file.close()
     return float(ra),float(dec),float(rad)
 
