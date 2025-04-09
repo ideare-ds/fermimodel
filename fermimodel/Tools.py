@@ -97,11 +97,12 @@ def getFlux(spectype, emin, emax, **spectrumargs):
         pleci = spectrumargs['plec_index']
         p = spectrumargs['pivot_energy']
         plecei = spectrumargs['plec_exp_index']
-        integrated_dflux = lambda energy: - (cof*(plecef**((pleci - 1.)/plecei))*(p**pleci)*np.exp(plecef*(p**plecei))*gamma((1.-pleci)/plecei)*gammaincc((1.-pleci)/plecei, plecef*(energy**plecei)))/plecei
-        flux = integrated_dflux(emax) - integrated_dflux(emin)
-        if np.isnan(flux):
-            dflux = lambda energy: cof*((energy/p)**(-pleci))*np.exp(plecef*(p**plecei - energy**plecei))
-            flux, fluxunc = quad(dflux, emin, emax, epsabs=0)
+        def dflux(energy):
+            if np.abs(plecei * np.log(energy/p)) < 1e-2:
+                return cof * (energy/p)**(-pleci - plecef/2 * np.log(energy/p) - plecef*plecei/6 * (np.log(energy/p))**2 - plecef*plecei**2/24 * (np.log(energy/p))**3)
+            else:
+                return cof * (energy/p)**(-pleci + plecef/plecei) * np.exp(plecef/plecei**2 * (1- (energy/p)**plecei))
+        flux, fluxunc = quad(dflux, emin, emax, epsabs=0)
     elif spectype == 'BrokenPowerLaw':
         plf = spectrumargs['pl_flux_density']
         p = spectrumargs['pivot_energy']
