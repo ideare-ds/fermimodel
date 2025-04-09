@@ -304,7 +304,7 @@ class likelihoodModel:
         comment = model.createComment("Catalog Sources")
         model.documentElement.appendChild(comment)
         
-        rad_bins = 5.
+        rad_bins = 5
         step = (self.roi[2] + self.ER)/rad_bins
         radii = np.linspace(step, self.roi[2] + self.ER, num=rad_bins)
         ptSrcNum = 0
