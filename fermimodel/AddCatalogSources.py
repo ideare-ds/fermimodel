@@ -297,7 +297,7 @@ class likelihoodModel:
         lpIndex = data['LP_Index']
         lpbeta = data['LP_beta']
         plecIndex = data['PLEC_Index']
-        plecexpFact = data['PLEC_Expfactor']
+        plecexpFact = data['PLEC_ExpfactorS']
         plecexpIndex = data['PLEC_Exp_Index']
         spectype = data['SpectrumType']
 
@@ -622,7 +622,7 @@ class simulationModel:
         lpIndex = data['LP_Index']
         lpbeta = data['LP_beta']
         plecIndex = data['PLEC_Index']
-        plecexpFact = data['PLEC_Expfactor']
+        plecexpFact = data['PLEC_ExpfactorS']
         plecexpIndex = data['PLEC_Exp_Index']
         spectype = data['SpectrumType']
 
