@@ -204,7 +204,8 @@ def COspec(roi, radLim, maxRad, varValue, var, sig, nO, f, i, p, a, ei, dist, TS
 
 def CO2spec(roi, radLim, maxRad, varValue, var, sig, nO, f, i, p, a, ei, dist, TS, vi):
     """Power law with a subexponential cutoff. 4FGL definition"""
-    f *= np.exp(a*(p**ei))
+    # f *= np.exp(a*(p**ei)) # check if consistent
+
     fscale = np.floor(np.log10(f)).astype('int')
 
     xmldoc_out = minidom.getDOMImplementation().createDocument(None, None, None)
@@ -219,51 +220,51 @@ def CO2spec(roi, radLim, maxRad, varValue, var, sig, nO, f, i, p, a, ei, dist, T
         comment = xmldoc_out.createComment('Source is outside ROI, all parameters should remain fixed')
         comments.append(comment)
         free = False
-        spec.appendChild(Tools.parameter_element(0, "Prefactor", 1.e4, 1.e-4, 10.**fscale, f/10.**fscale))
-        spec.appendChild(Tools.parameter_element(0, "Index1", 10.0, 0.0, -1.0, i))
-        spec.appendChild(Tools.parameter_element(0, "Expfactor", 100.0, -1.0, 0.001, a*1000.))
+        spec.appendChild(Tools.parameter_element(0, "Prefactor", 100., 0, 10.**fscale, f/10.**fscale))
+        spec.appendChild(Tools.parameter_element(0, "IndexS", 5.0, 0.0, -1.0, i))
+        spec.appendChild(Tools.parameter_element(0, "ExpfactorS", 50.0, -10.0, 0.1, a*10.))
     elif dist > radLim:
         if dist > maxRad:
             comment = xmldoc_out.createComment('Source is outside specified radius limit of {0}'.format(radLim))
             comments.append(comment)
-            spec.appendChild(Tools.parameter_element(0, "Prefactor", 1.e4, 1.e-4, 10.**fscale, f/10.**fscale))
+            spec.appendChild(Tools.parameter_element(0, "Prefactor", 100., 0, 10.**fscale, f/10.**fscale))
             free = False
         elif vi < varValue or not var:
             comment = xmldoc_out.createComment('Source is outside specified radius limit of {0}'.format(radLim))
             comments.append(comment)
-            spec.appendChild(Tools.parameter_element(0, "Prefactor", 1.e4, 1.e-4, 10.**fscale, f/10.**fscale))
+            spec.appendChild(Tools.parameter_element(0, "Prefactor", 100., 0, 10.**fscale, f/10.**fscale))
             free = False
         else:
             comment = xmldoc_out.createComment('Source is outside specified radius limit of {0} but variability index {1:.2f} is greater than {2:.2f} and varFree is set to True'.format(radLim, vi, varValue))
             comments.append(comment)
-            spec.appendChild(Tools.parameter_element(1, "Prefactor", 1.e4, 1.e-4, 10.**fscale, f/10.**fscale))
+            spec.appendChild(Tools.parameter_element(1, "Prefactor", 100., 0, 10.**fscale, f/10.**fscale))
             free = True
-        spec.appendChild(Tools.parameter_element(0, "Index1", 10.0, 0.0, -1.0, i))
-        spec.appendChild(Tools.parameter_element(0, "Expfactor", 100.0, 0.1, 0.001, a**1000.))
+        spec.appendChild(Tools.parameter_element(0, "IndexS", 5.0, 0.0, -1.0, i))
+        spec.appendChild(Tools.parameter_element(0, "ExpfactorS", 50.0, -10.0, 0.1, a*10.))
     elif TS < sig:
         if vi < varValue or not var:
             comment = xmldoc_out.createComment('Source significance {0:.1f} is less than specified minimum for a free source of {1}'.format(TS, sig))
             comments.append(comment)
-            spec.appendChild(Tools.parameter_element(0, "Prefactor", 1.e4, 1.e-4, 10.**fscale, f/10.**fscale))
+            spec.appendChild(Tools.parameter_element(0, "Prefactor", 100., 0, 10.**fscale, f/10.**fscale))
             free = False
         else:
             comment = xmldoc_out.createComment('Source significance {0:.1f} is less than specified minimum for a free source of {1} but variability index {2:.2f} is greater than {3:.2f} and varFree is set to True'.format(TS, sig, vi, varValue))
             comments.append(comment)
-            spec.appendChild(Tools.parameter_element(1, "Prefactor", 1.e4, 1.e-4, 10.**fscale, f/10.**fscale))
+            spec.appendChild(Tools.parameter_element(1, "Prefactor", 100., 0, 10.**fscale, f/10.**fscale))
             free = True
-        spec.appendChild(Tools.parameter_element(0, "Index1", 10.0, 0.0, -1.0, i))
-        spec.appendChild(Tools.parameter_element(0, "Expfactor", 100.0, 0.1, 0.001, a*1000.))
+        spec.appendChild(Tools.parameter_element(0, "IndexS", 5.0, 0.0, -1.0, i))
+        spec.appendChild(Tools.parameter_element(0, "ExpfactorS", 50.0, -10.0, 0.1, a*10.))
     else:
         free = True
         spec.appendChild(Tools.parameter_element(1, "Prefactor", 1.e4, 1.e-4, 10.**fscale, f/10.**fscale))
         if nO:
-            spec.appendChild(Tools.parameter_element(0, "Index1", 10.0, 0.0, -1.0, i))
-            spec.appendChild(Tools.parameter_element(0, "Expfactor", 100.0, 0.1, 0.001, a*1000.))
+            spec.appendChild(Tools.parameter_element(0, "IndexS", 5.0, 0.0, -1.0, i))
+            spec.appendChild(Tools.parameter_element(0, "ExpfactorS", 50.0, -10.0, 0.1, a*10.))
         else:
-            spec.appendChild(Tools.parameter_element(1, "Index1", 10.0, 0.0, -1.0, i))
-            spec.appendChild(Tools.parameter_element(1, "Expfactor", 100.0, 0.1, 0.001, a*1000.))
-    spec.appendChild(Tools.parameter_element(0, "Scale", 5.e5, 30.0, 1.0, p))
-    spec.appendChild(Tools.parameter_element(0, "Index2", 5.0, 0.0, 1.0, ei))
+            spec.appendChild(Tools.parameter_element(1, "IndexS", 5.0, 0.0, -1.0, i))
+            spec.appendChild(Tools.parameter_element(1, "ExpfactorS", 50.0, -10.0, 0.1, a*10.))
+    spec.appendChild(Tools.parameter_element(0, "Scale", 1000., 0.01, 1000.0, p/1000.))
+    spec.appendChild(Tools.parameter_element(0, "Index2", 2.0, 0.1, 1.0, ei))
     return spec, free, comments
 
 def LPspec(roi, radLim, maxRad, varValue, var, sig, nO, f, i, p, b, dist, TS, vi):
