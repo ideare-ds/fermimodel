@@ -1,45 +1,23 @@
 # FermiModel
 
-This package is for use with the [Fermitools](https://github.com/fermi-lat/Fermitools-conda/wiki/Quickstart-Guide). The main function of the package is to produce model files for use in analysis with gtlike and simulations with gtobssim. This is essentially an extension of [make4FGLxml.py](https://fermi.gsfc.nasa.gov/ssc/data/analysis/user/make4FGLxml.py), written by Tyrel Johnson and the command line syntax is nearly identical to that of [make4FGLxml.py](https://fermi.gsfc.nasa.gov/ssc/data/analysis/user/make4FGLxml.py).
+This package is for use with the [Fermitools](https://github.com/fermi-lat/Fermitools-conda/wiki/Quickstart-Guide). The main function of the package is to produce model files for use in analysis with gtlike and simulations with gtobssim. 
+This is an updated version of [Jaryd Ulbricht's fermimodel](https://github.com/jaulbric/fermimodel). We made the package compatible with Python 3 and we updated the pulsars' spectral law up to the PLSuperExpCutoff4.
+
 
 ## Installation
 
-Download the package (This will save the package to a directory named `fermimodel` in the user's home directory)
+We recommend to install the package inside a virtual environment. If the package is to be used alongside the fermitools, we recommend using conda as explained [here](https://github.com/fermi-lat/Fermitools-conda/wiki/Quickstart-Guide).
+Once the virtual environment is activated you can clone the repository to your local machine
 
-#### BaSH
 ```bash
-# Get the version of the latest release
-version=`curl -s https://api.github.com/repos/jaulbric/fermimodel/releases/latest \
-| grep "tag_name" \
-| cut -d ":" -f 2 \
-| tr -d " "-\"-,`
-# download and untar the package
-wget https://github.com/jaulbric/fermimodel/archive/$version.tar.gz \
-&& mkdir ~/fermimodel \
-&& tar xvfz $version.tar.gz -C ~/fermimodel --strip-components 1 \
-&& rm $version.tar.gz
+git clone https://github.com/ideare-ds/fermimodel.git
 ```
 
-#### csh/tcsh
+and then move to the package root directory and install
 
 ```bash
-# Get the version of the latest release
-set version=`curl -s https://api.github.com/repos/jaulbric/fermimodel/releases/latest \
-| grep "tag_name" \
-| cut -d ":" -f 2 \
-| tr -d " "-\"-,`
-# download and untar the package
-wget https://github.com/jaulbric/fermimodel/archive/$version.tar.gz \
-&& mkdir ~/fermimodel \
-&& tar xvfz $version.tar.gz -C ~/fermimodel --strip-components 1 \
-&& rm $version.tar.gz
-```
-
-Then move to the package root directory and install
-
-```bash
-cd ~/fermimodel
-python setup.py install
+cd fermimodel
+python -m pip install .
 ```
 
 ## Usage
